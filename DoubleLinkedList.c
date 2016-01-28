@@ -92,12 +92,10 @@
 #ifndef DOUBLELINKEDLIST_H
 #define DOUBLELINKEDLIST_H
 #include "Node.h"
-#include <stdexcept>
-#include <iostream>
-using std::cout;
+#include "stdlib.h"
+#include "stdio.h"
 
-template<typename T>
-class DoubleLinkedList
+struct DoubleLinkedList
 {
 public:
 	DoubleLinkedList();
