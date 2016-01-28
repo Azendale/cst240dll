@@ -1,3 +1,4 @@
+#pragma once
 /*********************************************************************
 * Author: Erik Andersen
 * Created: Spring 2014
@@ -37,8 +38,6 @@
 *  Node * GetPrevP() const
 *   Returns a poniter to the previous object this points to.
 *********************************************************************/
-#ifndef NODE_H
-#define NODE_H
 
 template<typename T>
 class Node
@@ -173,5 +172,3 @@ template<typename T>
 Node<T>::Node(const Node<T> & source) : m_nextP(source.m_nextP), m_prevP(source.m_prevP), m_data(source.m_data)
 {
 }
-
-#endif

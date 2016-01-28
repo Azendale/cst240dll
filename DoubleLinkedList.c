@@ -1,3 +1,4 @@
+#pragma once
 /*********************************************************************
 * Author: Erik Andersen
 * Created: Spring 2014
@@ -89,8 +90,6 @@
 *   return the number of items in the list.
 ********************************************************************/
 
-#ifndef DOUBLELINKEDLIST_H
-#define DOUBLELINKEDLIST_H
 #include "Node.h"
 #include "stdlib.h"
 #include "stdio.h"
@@ -712,6 +711,3 @@ int DoubleLinkedList<T>::Size() const
 
 	return size;
 }
-
-
-#endif
