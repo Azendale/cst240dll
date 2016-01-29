@@ -1,10 +1,9 @@
-#pragma once
 #include "DoubleLinkedList.h"
 
-#include "stdlib.h"
-#include "stdio.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-typdef struct item_s
+typedef struct item_s
 {
     int data;
     struct item_s *next;
@@ -27,9 +26,10 @@ item_t * NewItem_t(item_t * p, item_t * n, int d)
 	return this;
 }
 
-int Count(linked_list_t)
+int Count(linked_list_t list)
 {
-	return (list_t *)->count;
+	list_t * this = (list_t *)list; 
+	return this->count;
 }
 
 // Create and initialize a list. 
