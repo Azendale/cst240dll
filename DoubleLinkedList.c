@@ -439,6 +439,7 @@ int Remove_From_End(linked_list_t list, int* data);
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
+/*
 int DLL_First(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
@@ -451,12 +452,14 @@ int DLL_First(linked_list_t list, )
 		return head->data;
 	}
 }
+*/
 
 /*********************************************************************
 * Purpose: Return a reference to the element at the back of the list.
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
+/*
 int DLL_Last(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
@@ -469,12 +472,14 @@ int DLL_Last(linked_list_t list, )
 		return this->tail->data;
 	}
 }
+*/
 
 /*********************************************************************
 * Purpose: Return a reference to the element at the front of the list.
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
+/*
 T & DLL_First(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
@@ -487,12 +492,14 @@ T & DLL_First(linked_list_t list, )
 		return this->head->data;
 	}
 }
+*/
 
 /*********************************************************************
 * Purpose: Return a reference to the element at the back of the list.
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
+/*
 T & DLL_Last(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
@@ -505,48 +512,57 @@ T & DLL_Last(linked_list_t list, )
 		return this->tail->data;
 	}
 }
+*/
 
 /*********************************************************************
 * Purpose: Return a reference to the Ith element in the list starting from the front.
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
+/*
 T & DLL_GetIthElement(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
 	return this->GetIndex(index)->data;
 }
+*/
 
 /*********************************************************************
 * Purpose: Return a reference to the Ith element in the list starting from the front.
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
+/*
 int DLL_GetIthElement(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
 	return this->GetIndex(index)->data;
 }
+*/
 
 /*********************************************************************
 * Purpose: Return a reference to the Ith element in the list starting from the front.
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
+/*
 T & DoubleLinkedList<T>::operator[](int index)
 {
 	return GetIthElement(index);
 }
+*/
 
 /*********************************************************************
 * Purpose: Return a reference to the Ith element in the list starting from the front.
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
+/*
 int DoubleLinkedList<T>::operator[](int index)
 {
 	return GetIthElement(index);
 }
+*/
 
 
 /*********************************************************************
@@ -554,6 +570,7 @@ int DoubleLinkedList<T>::operator[](int index)
 * Entry: At least index+1 items in the list.
 * Exit: Item removed from list, with item(s) previously on either side linked to each other
 ********************************************************************/
+/*
 T DLL_ExtractIndex(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
@@ -563,12 +580,14 @@ T DLL_ExtractIndex(linked_list_t list, int index)
 	delete toRemove;
 	return returnVal;
 }
+*/
 
 /*********************************************************************
 * Purpose: Remove, and return, an element by searching by value. Thows an exception if that value is not found.
 * Entry: At least one item matching searchTerm in the list.
 * Exit: Item removed from list, with item(s) previously on either side linked to each other
 ********************************************************************/
+/*
 T DLL_Extract(linked_list_t list, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
@@ -578,12 +597,13 @@ T DLL_Extract(linked_list_t list, int searchTerm)
 	delete temp;
 	return returnVal;
 }
+*/
 
 /*********************************************************************
 * Purpose: return the number of items in the list.
 *********************************************************************/
-template <typename T>
-int DLL_Size(linked_list_t list, )
+/*
+int DLL_SizeCount(linked_list_t list)
 {
 	list_t * this = (*list_t)list; 
 	int size = 0;
@@ -596,3 +616,4 @@ int DLL_Size(linked_list_t list, )
 
 	return size;
 }
+*/
