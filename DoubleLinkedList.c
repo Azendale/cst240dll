@@ -31,6 +31,8 @@ item_t * NewItem_t(item_t * p, item_t * n, int d)
 }
 
 // Return the number of nodes in the linked list
+// Params:
+//     list: the list to get the size of
 int Count(linked_list_t list)
 {
     list_t * this = (list_t *)list; 
@@ -249,6 +251,10 @@ int Remove_From_End(linked_list_t list, int* data)
 }
 
 // Traverse our list, calling the callback function action
+// Return 0 on success
+// Params:
+//    list: list to traverse
+//    action: callback to call with int data. Must return void
 int Traverse(linked_list_t list, void (*action)(int data))
 {
     list_t * this = (list_t *)list;
