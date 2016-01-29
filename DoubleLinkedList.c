@@ -52,6 +52,7 @@ linked_list_t* Init_List()
 *  pointed at two adjacent "nodes" (including the head/tail pointers,
 *  where appropriate) in the list.
 *********************************************************************/
+/*
 int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 {
 	list_t * this = (*list_t)list; 
@@ -72,7 +73,7 @@ int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 		toRemove->next->prev = toRemove->prev);
 	}
 }
-
+*/
 
 /*********************************************************************
 * Purpose: Take a node object that has its pointers set properly to be
@@ -109,6 +110,7 @@ void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 * Purpose: Remove all elements of the list, leaving an empty list.
 * Exit: List empty, no dynamically allocated memory left.
 ********************************************************************/
+/*
 void DLL_Purge(linked_list_t list)
 {
 	list_t * this = (*list_t)list; 
@@ -123,7 +125,7 @@ void DLL_Purge(linked_list_t list)
 		tempHead = next;
 	}
 }
-
+*/
 // Return true (non-zero) if the list is empty
 //    list: list to examine
 int Empty(linked_list_t list);
@@ -144,6 +146,7 @@ int Empty(linked_list_t list);
 * Entry: At least one item matching searchTerm in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
+/*
 item_t * DLL_FindData(linked_list_t list, int searchTerm, int backward)
 {
 	list_t * this = (*list_t)list; 
@@ -167,12 +170,14 @@ item_t * DLL_FindData(linked_list_t list, int searchTerm, int backward)
 	}
 	return temp;
 }
+*/
 
 /*********************************************************************
 * Purpose: Return a pointer to the Ith element
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
+/*
 item_t * DLL_GetIndex(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
@@ -201,6 +206,7 @@ item_t * DLL_GetIndex(linked_list_t list, int index)
 	// Ok, now we should be wound forward to the one we want.
 	return temp;
 }
+*/
 
 
 // Delete a list are free all memory used by the list
@@ -225,6 +231,7 @@ int Delete_List(linked_list_t list)
 * Purpose: Insert a copy of source before the first occurence of an item matching searchTerm.
 * Entry: At least one item matching searchTerm in the list.
 ********************************************************************/
+/*
 void DLL_InsertAfter(linked_list_t list, int source, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
@@ -232,11 +239,13 @@ void DLL_InsertAfter(linked_list_t list, int source, int searchTerm)
 	item_t * newItem = NewItem_t(posReference, posReference->next, source);
 	this->wedgeNode(newItem);
 }
+*/
 
 /*********************************************************************
 * Purpose: Insert a copy of source before the first occurence of an item matching searchTerm.
 * Entry: At least one item matching searchTerm in the list.
 ********************************************************************/
+/*
 void DLL_InsertBefore(linked_list_t list, int source, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
@@ -244,11 +253,13 @@ void DLL_InsertBefore(linked_list_t list, int source, int searchTerm)
 	item_t * newItem = NewItem_t(posReference->prev, posReference, source);
 	this->wedgeNode(newItem);
 }
+*/
 
 /*********************************************************************
 * Purpose: Insert a copy of source after the item at index.
 * Entry: Length of the list must be at least index+1 items
 ********************************************************************/
+/*
 void DLL_InsertAfterIndex(linked_list_t list, int source, int index)
 {
 	list_t * this = (*list_t)list; 
@@ -266,11 +277,13 @@ void DLL_InsertAfterIndex(linked_list_t list, int source, int index)
 
 	this->wedgeNode(newItem);
 }
+*/
 
 /*********************************************************************
 * Purpose: Insert a copy of source before the item at index.
 * Entry: Length of the list must be at least index+1 items
 ********************************************************************/
+/*
 void DLL_InsertBeforeIndex(linked_list_t list, int source, int index)
 {
 	list_t * this = (*list_t)list; 
@@ -288,6 +301,7 @@ void DLL_InsertBeforeIndex(linked_list_t list, int source, int index)
 	
 	this->wedgeNode(newItem);
 }
+*/
 
 
 // Insert an item at the beginning of the list
@@ -296,14 +310,9 @@ void DLL_InsertBeforeIndex(linked_list_t list, int source, int index)
 //    list: list to add item to
 //    data: Data to be added to the list
 int Insert_At_Beginning(linked_list_t list, int data);
-/*********************************************************************
-* Purpose: Add a new element at the start of the list that is a copy of source.
-* Exit: New item inserted at the start of the list, and old items back pointer updated.
-********************************************************************/
-void DLL_Prepend(linked_list_t list, int source)
 {
 	list_t * this = (*list_t)list; 
-	item_t * newNode = NewItem_t((item_t *)NULL, this->head, source);
+	item_t * newNode = NewItem_t((item_t *)NULL, this->head, data);
 	/* Data structure inconsistent after this */
 	if (newNode->next == NULL)
 	{
@@ -314,7 +323,9 @@ void DLL_Prepend(linked_list_t list, int source)
 		newNode->next->prev = newNode);
 	}
 	this->head = newNode;
+	this->count++;
 	/* Data structure consistent again */
+	return 0;
 }
 
 
@@ -324,14 +335,9 @@ void DLL_Prepend(linked_list_t list, int source)
 //    list: list to add item to
 //    data: Data to be added to the list
 int Insert_At_End(linked_list_t list, int data);
-/*********************************************************************
-* Purpose: Add a new element at the end of the list that is a copy of source.
-* Exit: New item inserted at the end of the list, old last items forward pointer updated.
-********************************************************************/
-void DLL_Append(linked_list_t list, int source)
 {
 	list_t * this = (*list_t)list; 
-	item_t * newNode = NewItem_t(this->tail, (item_t *)NULL, source);
+	item_t * newNode = NewItem_t(this->tail, (item_t *)NULL, data);
 	/* Data structure inconsistent after this */
 	if (newNode->prev == NULL)
 	{
@@ -342,7 +348,9 @@ void DLL_Append(linked_list_t list, int source)
 		newNode->prev->next = newNode);
 	}
 	this->tail = newNode;
+	this->count++;
 	/* Data structure consistent again */
+	return 0;
 }
 
 
@@ -353,23 +361,16 @@ void DLL_Append(linked_list_t list, int source)
 //    data: pointer to location to store data of removed item
 //          if data is NULL, data is not returned
 int Remove_From_Beginning(linked_list_t list, int* data);
-/*********************************************************************
-* Purpose: Remove, and return, a copy of the element at the front of the list.
-* Entry: At least one item in the list.
-* Exit: First item removed from the list.
-********************************************************************/
-T DLL_PopFront(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
-		throw "0 items in list, can't return front";
+		return 1;
 	}
 	else
 	{
-		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
 		item_t * toRemove = this->head;
-		T temp = toRemove->data;
+		*data = toRemove->data;
 		// Go to the next node, the one that will be the in front when we are done
 		item_t * nextFront = toRemove->next;
 		/* Data structure inconsistent after this */
@@ -388,8 +389,8 @@ T DLL_PopFront(linked_list_t list, )
 		}
 		this->head = nextFront;
 		/* Data structure consistent again */
-		delete toRemove;
-		return temp;
+		free(toRemove);
+		this->count--;
 	}
 }
 
@@ -401,23 +402,16 @@ T DLL_PopFront(linked_list_t list, )
 //    data: pointer to location to store data of removed item
 //          if data is NULL, data is not returned
 int Remove_From_End(linked_list_t list, int* data);
-/*********************************************************************
-* Purpose: Remove, and return, a copy of the element at the back of the list.
-* Entry: At least one item in the list.
-* Exit: Last item removed from the list.
-********************************************************************/
-T DLL_PopBack(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
-		throw "0 items in list, can't return front";
+		return 1;
 	}
 	else
 	{
-		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
 		item_t * toRemove = this->tail;
-		T temp = toRemove->data;
+		*data = toRemove->data;
 		// Go to the next node, the one that will be the in front when we are done
 		item_t * nextBack = toRemove->prev;
 		/* Data structure inconsistent after this */
@@ -435,8 +429,8 @@ T DLL_PopBack(linked_list_t list, )
 		}
 		this->tail = nextBack;
 		/* Data structure consistent again */
-		delete toRemove;
-		return temp;
+		free(toRemove);
+		return 0;
 	}
 }
 
