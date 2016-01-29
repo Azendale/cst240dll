@@ -68,3 +68,9 @@ int Count(linked_list_t);
 //    action: callback to call with int data. Must return void
 int Traverse(linked_list_t list, void (*action)(int data));
 
+// Insert int into the list in the proper sorted position
+// Return 0 on success
+// Params:
+//     list: list to insert int into
+//     value: int to insert into the list
+int Insert_in_order(linked_list_t list, int value);

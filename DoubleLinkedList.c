@@ -268,3 +268,41 @@ int Traverse(linked_list_t list, void (*action)(int data))
     // success everywhere else
     return 0;
 }
+
+// Insert int into the list in the proper sorted position
+// Return 0 on success
+// Params:
+//     list: list to insert int into
+//     value: int to insert into the list
+int Insert_in_order(linked_list_t list, int value)
+{
+    list_t * this = (list_t *)list;
+    
+    // Track where we are in the list
+    item_t * travel = this->head;
+    
+    // Find where to put it, stopping when we find something larger or the end 
+    // of the list
+    while (NULL != travel && value < travel->data)
+    {
+       travel = travel->next; 
+    }
+    // If we found the end of the list instead of something larger, than 
+    // just append to the list
+    if (NULL == travel)
+    {
+        return Insert_At_End(this, value);
+    }
+    // Otherwise, just insert it before the item we found that was larger
+    else
+    {
+        // Create the node
+        // Note that traverse->prev could be NULL, if we are prepending the
+        // list, but DLL_wedgeNode handles that
+        item_t * newNode = NewItem_t(travel->prev, travel, value);
+        // Wedge the node in
+        DLL_wedgeNode(this, newNode);
+    }
+    // return 0 to say it worked
+    return 0;
+}
