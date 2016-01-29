@@ -1,4 +1,5 @@
 #pragma once
+#include "Node.h"
 /*********************************************************************
 * Author: Erik Andersen
 * Created: Spring 2014
@@ -38,11 +39,19 @@
 *  Node * GetPrevP() const
 *   Returns a poniter to the previous object this points to.
 *********************************************************************/
+struct Node
+{
+	void Delete_Node(node_t * this);
+	const Node & operator= (const Node<T> & rhs);
+	Node(Node<T> * prevP, Node<T> * nextP, const T & toAdd);
+	Node(const Node & source);
+	Node<T> * m_nextP;
+	Node<T> * m_prevP;
+	T m_data;
+};
 
-template<typename T>
 class Node
 {
-	template<typename U> friend class DoubleLinkedList;
 public:
 	~Node();
 private:
@@ -65,7 +74,6 @@ private:
 * Purpose:  Returns a pointer to the next object this points to.
 * Exit: Return a copy of the Forward/Next pointer.
 ********************************************************************/
-template<typename T>
 Node<T> * Node<T>::GetNextP() const
 {
 	return m_nextP;
@@ -75,7 +83,6 @@ Node<T> * Node<T>::GetNextP() const
 * Purpose: Returns a pointer to the previous object this points to.
 * Exit: Return a copy of the Back/Prev pointer.
 ********************************************************************/
-template<typename T>
 Node<T> * Node<T>::GetPrevP() const
 {
 	return m_prevP;
@@ -85,7 +92,6 @@ Node<T> * Node<T>::GetPrevP() const
 * Purpose: Returns a reference to the current data member
 * Exit: List unchanged, but data in it can now be changed as a reference is returned.
 ********************************************************************/
-template<typename T>
 T & Node<T>::GetData()
 {
 	return m_data;
@@ -96,7 +102,6 @@ T & Node<T>::GetData()
 * Entry: None.
 * Exit: Next/Forward pointer set to nextP
 ********************************************************************/
-template<typename T>
 void Node<T>::SetNextP(Node<T> * nextP)
 {
 	m_nextP = nextP;
@@ -107,7 +112,6 @@ void Node<T>::SetNextP(Node<T> * nextP)
 * Entry: None
 * Exit: Back/Prev pointer set to prevP
 ********************************************************************/
-template<typename T>
 void Node<T>::SetPrevP(Node<T> * prevP)
 {
 	m_prevP = prevP;
@@ -118,7 +122,6 @@ void Node<T>::SetPrevP(Node<T> * prevP)
 * Entry: source a valid T reference.
 * Exit: Previous data replaced with a copy of source.
 ********************************************************************/
-template<typename T>
 void Node<T>::SetData(const T & source)
 {
 	m_data = source;
@@ -130,7 +133,6 @@ void Node<T>::SetData(const T & source)
 * Entry: data a valid reference to a T object.
 * Exit: This object a new node with a copy of data stored in it.
 ********************************************************************/
-template<typename T>
 Node<T>::Node(Node<T> * prevP, Node<T> * nextP, const T & data) : m_nextP(nextP), m_prevP(prevP), m_data(data)
 {
 }
@@ -141,7 +143,6 @@ Node<T>::Node(Node<T> * prevP, Node<T> * nextP, const T & data) : m_nextP(nextP)
 * Entry: rhs a valid node object reference.
 * Exit: This object made eqaul to rhs.
 ********************************************************************/
-template<typename T>
 const Node<T> & Node<T>::operator= (const Node<T> & rhs)
 {
 	m_nextP = rhs.m_nextP;
@@ -155,7 +156,6 @@ const Node<T> & Node<T>::operator= (const Node<T> & rhs)
 * Purpose: Free any memory dynamically allocated by this class.
 * Exit: No dynamically allocated memory still reserved.
 ********************************************************************/
-template<typename T>
 Node<T>::~Node()
 {
 	// No need to delete m_data as that will happen automatically
@@ -168,7 +168,6 @@ Node<T>::~Node()
 * Entry: source a valid reference to a node object
 * Exit: This a new object equal to source.
 ********************************************************************/
-template<typename T>
 Node<T>::Node(const Node<T> & source) : m_nextP(source.m_nextP), m_prevP(source.m_prevP), m_data(source.m_data)
 {
 }

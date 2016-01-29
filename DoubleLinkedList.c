@@ -1,136 +1,67 @@
 #pragma once
-/*********************************************************************
-* Author: Erik Andersen
-* Created: Spring 2014
-* Last Modified: 2014-01-07
-*  Many additions and Removals, (Note to self, see BZR revision control.)
-*  including Extract, InsertAfter, InsertBefore, First, Last, InsertBeforeIndex,
-*  InsertAfterIndex, ExtractIndex, wedgeNode, RemoveNode, isEmpty, FindData,
-*  getTail, getHead, PrintBackwards, PrintForwards (and others).
-* Overview:
-*  Implements a doubly linked list with a separate, friendly Node class.
-*
-* Class: DoubleLinkedList
-*
-* Constructors:
-*  DoubleLinkedList()
-*   Create an empty linked list.
-*  DoubleLinkedList(const DoubleLinkedList & source)
-*   Create a copy of source, including all the data elements.
-*
-* Operators:
-*  const DoubleLinkedList & operator= (const DoubleLinkedList & rhs)
-*   Set this object equal to rhs, making a full copy of all data elements.
-*  T & operator= (const Node & rhs)
-*   Return a reference to the Ith element in the list starting from the front.
-*   Remember, this reference is invalid if that location of the list is popped,
-*   removed, or set to something else.
-*  T & operator[](int index)
-*   Return a reference to the item at index
-*  const T & operator[](int index) const
-*   Return a const reference to the item at index
-*
-* Mutators:
-*  void InsertAfterIndex(const T & source, int index)
-*   Insert a copy of source after the item at index. 
-*  void InsertBeforeIndex(const T & source, int index)
-*   Insert a copy of source before the item at index. 
-*  void InsertAfter(const T & source, const T & searchTerm)
-*   Insert a copy of source before the first occurence of an item matching searchTerm.
-*  void InsertBefore(const T & source, const T & searchTerm)
-*   Insert a copy of source before the first occurence of an item matching searchTerm.
-*  T Extract(const T & searchTerm)
-*   Remove, and return, an element by searching by value. Thows an exception if that value is not found.
-*  void wedgeNode(Node<T> * newItem)
-*   Take a node object that has its pointers set properly to be
-*   between nodes (including at the end of the list), and update the 
-*   "nodes" (including m_head or m_tail if needed) on either side so it
-*   is between them.
-*  void RemoveNode(Node<T> * toRemove)
-*   Remove a node (with still valid next and previous pointers
-*   for its position in the list) and remove it from the list. Does NOT
-*   delete the object pointed to by toRemove.
-*  void Prepend(const T& source)
-*   Add a new element at the front of the list that is a copy of source.
-*  void Append(const T& source)
-*   Add a new element at the back of the list that is a copy of source.
-*  T PopFront()
-*   Remove, and return, a copy of the element at the front of the list.
-*  T PopBack()
-*   Remove, and return, a copy of the element at the back of the list.
-*  void Purge()
-*   Remove all elements of the list, leaving an empty list.
-*  T & GetIthElement(int index)
-*   Return a reference to the Ith element in the list starting from the front.
-*   Remember, this reference is invalid if that location of the list is popped,
-*   removed, or set to something else.
-*  T ExtractIndex(int index)
-*   Remove, and return, an element at index. Thows an exception if out of range.
-*
-* Methods:
-*  const T & GetIthElement(int index) const
-*   Return a reference to the Ith element in the list starting from the front. 
-*  bool isEmpty() const
-*   Determine if list is empty or not. If so, return true. 
-*  Node<T> * GetIndex(int index) const
-*   Return a pointer to the Ith element 
-*  Node<T> * FindData(const T & searchTerm, bool backward=false) const
-*   Return a pointer to the first or last item matching searchTerm. 
-*  const T & First() const
-*   Return a reference to the element at the front of the list. Remember,
-*   this reference is invalid if that location of the list is popped, removed,
-*   or set to something else.
-*  const T & Last() const
-*   Return a reference to the element at the back of the list. Remember,
-*   this reference is invalid if that location of the list is popped, removed,
-*   or set to something else.
-*  bool isEmpty() const
-*   return true if the list is empty, otherwise false.
-*  int Size() const
-*   return the number of items in the list.
-********************************************************************/
+#include "DoubleLinkedList.h"
 
-#include "Node.h"
 #include "stdlib.h"
 #include "stdio.h"
 
-struct DoubleLinkedList
+typdef struct item_s
 {
-public:
-	DoubleLinkedList();
-	DoubleLinkedList(const DoubleLinkedList<T> & source);
-	const DoubleLinkedList<T> & operator= (const DoubleLinkedList<T> & rhs);
-	~DoubleLinkedList();
+    int data;
+    struct item_s *next;
+    struct item_s *prev;
+} item_t;
 
-	void Prepend(const T & source);
-	void Append(const T & source);
-	T PopFront();
-	T PopBack();
-	const T & First() const;
-	const T & Last() const;
-	T & First();
-	T & Last();
-	void Purge();
-	T & GetIthElement(int index);
-	T & operator[](int index);
-	const T & GetIthElement(int index) const;
-	const T & operator[](int index) const;
-	bool isEmpty() const;
-	int Size() const;
-	void InsertAfterIndex(const T & source, int index);
-	void InsertBeforeIndex(const T & source, int index);
-	T ExtractIndex(int index);
-	void InsertAfter(const T & source, const T & searchTerm);
-	void InsertBefore(const T & source, const T & searchTerm);
-	T Extract(const T & searchTerm);
-private:
-	Node<T> * m_head;
-	Node<T> * m_tail;
-	Node<T> * GetIndex(int index) const;
-	void wedgeNode(Node<T> * newItem);
-	void RemoveNode(Node<T> * toRemove);
-	Node<T> * FindData(const T & searchTerm, bool backward=false) const;
-};
+typedef struct list_s
+{
+	item_t * head;
+	item_t * tail;
+	int count;
+} list_t;
+
+
+// Insert an item at the beginning of the list
+// Return zero on success
+// Params:
+//    list: list to add item to
+//    data: Data to be added to the list
+int Insert_At_Beginning(linked_list_t list, int data);
+
+// Insert an item at the end of the list
+// Return zero on success
+// Params:
+//    list: list to add item to
+//    data: Data to be added to the list
+int Insert_At_End(linked_list_t list, int data);
+
+// Return true (non-zero) if the list is empty
+//    list: list to examine
+int Empty(linked_list_t list);
+
+// Remove an item from the beginning of the list 
+// Return zero on success
+// Params:
+//    list: list to remove item from
+//    data: pointer to location to store data of removed item
+//          if data is NULL, data is not returned
+int Remove_From_Beginning(linked_list_t list, int* data);
+
+// Remove an item from the end of the list 
+// Return zero on success
+// Params:
+//    list: list to remove item from
+//    data: pointer to location to store data of removed item
+//          if data is NULL, data is not returned
+int Remove_From_End(linked_list_t list, int* data);
+
+// Create and initialize a list. 
+// Return pointer to list. Return NULL on failure.
+linked_list_t* Init_List()
+{
+	head = NULL;
+	tail = NULL;
+	count = 0;
+}
+
 
 /*********************************************************************
 * Purpose: Remove a node (with still valid next and previous pointers
@@ -143,7 +74,7 @@ private:
 template<typename T>
 void DoubleLinkedList<T>::RemoveNode(Node<T> * toRemove)
 {
-	if (toRemove->GetPrevP() == nullptr)
+	if (toRemove->GetPrevP() == NULL)
 	{
 		m_head = toRemove->GetNextP();
 	}
@@ -151,7 +82,7 @@ void DoubleLinkedList<T>::RemoveNode(Node<T> * toRemove)
 	{
 		toRemove->GetPrevP()->SetNextP(toRemove->GetNextP());
 	}
-	if (toRemove->GetNextP() == nullptr)
+	if (toRemove->GetNextP() == NULL)
 	{
 		m_tail = toRemove->GetPrevP();
 	}
@@ -174,7 +105,7 @@ template<typename T>
 void DoubleLinkedList<T>::wedgeNode(Node<T> * newItem)
 {
 	// if true, @ end of list, update tail pointer
-	if (newItem->GetNextP() == nullptr) 
+	if (newItem->GetNextP() == NULL) 
 	{
 		m_tail = newItem;
 	}
@@ -183,7 +114,7 @@ void DoubleLinkedList<T>::wedgeNode(Node<T> * newItem)
 		newItem->GetNextP()->SetPrevP(newItem);
 	}
 	// if true, @ start of list, update head pointer
-	if (newItem->GetPrevP() == nullptr)
+	if (newItem->GetPrevP() == NULL)
 	{
 		m_head = newItem;
 	}
@@ -201,10 +132,10 @@ template<typename T>
 void DoubleLinkedList<T>::Purge()
 {
 	Node<T> * tempHead = m_head;
-	m_head = nullptr;
-	m_tail = nullptr;
+	m_head = NULL;
+	m_tail = NULL;
 
-	while (tempHead != nullptr)
+	while (tempHead != NULL)
 	{
 		Node<T> * next = tempHead->GetNextP();
 		delete tempHead;
@@ -218,7 +149,7 @@ void DoubleLinkedList<T>::Purge()
 template<typename T>
 bool DoubleLinkedList<T>::isEmpty() const
 {
-	if (m_head == nullptr || m_tail == nullptr)
+	if (m_head == NULL || m_tail == NULL)
 	{
 		return true;
 	}
@@ -236,12 +167,12 @@ bool DoubleLinkedList<T>::isEmpty() const
 template<typename T>
 Node<T> * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) const
 {
-	Node<T> * temp = nullptr;
+	Node<T> * temp = NULL;
 	if (backward)
 	{
 		temp = m_tail;
-		// Using short-circuit logic here to avoid nullptr dereference
-		while (temp != nullptr && temp->GetData() != searchTerm)
+		// Using short-circuit logic here to avoid NULL dereference
+		while (temp != NULL && temp->GetData() != searchTerm)
 		{
 			temp = temp->GetPrevP();
 		}
@@ -249,12 +180,12 @@ Node<T> * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) con
 	else
 	{
 		temp = m_head;
-		while (temp != nullptr && temp->GetData() != searchTerm)
+		while (temp != NULL && temp->GetData() != searchTerm)
 		{
 			temp = temp->GetNextP();
 		}
 	}
-	if (nullptr == temp)
+	if (NULL == temp)
 	{
 		throw "Did not find data that matches the search.";
 	}
@@ -269,7 +200,7 @@ Node<T> * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) con
 template<typename T>
 Node<T> * DoubleLinkedList<T>::GetIndex(int index) const
 {
-	if (m_head == nullptr || m_tail == nullptr)
+	if (m_head == NULL || m_tail == NULL)
 	{
 		throw "Empty list.";
 	}
@@ -281,7 +212,7 @@ Node<T> * DoubleLinkedList<T>::GetIndex(int index) const
 	int position = 0;
 	while (position < index)
 	{
-		if (temp->GetNextP() != nullptr)
+		if (temp->GetNextP() != NULL)
 		{
 			temp = temp->GetNextP();
 			++position;
@@ -297,22 +228,12 @@ Node<T> * DoubleLinkedList<T>::GetIndex(int index) const
 
 
 /*********************************************************************
-* Purpose: Create an empty linked list.
-* Exit: This object an empty list in a valid state.
-********************************************************************/
-template<typename T>
-DoubleLinkedList<T>::DoubleLinkedList() : m_head(nullptr), m_tail(nullptr)
-{
-
-}
-
-/*********************************************************************
 * Purpose: Create a copy of source, including all the data elements.
 * Entry: source in a valid state.
 * Exit: This object created as a copy of source.
 ********************************************************************/
 template<typename T>
-DoubleLinkedList<T>::DoubleLinkedList(const DoubleLinkedList & source) : m_head(nullptr), m_tail(nullptr)
+DoubleLinkedList<T>::DoubleLinkedList(const DoubleLinkedList & source) : m_head(NULL), m_tail(NULL)
 {
 	*this = source;
 }
@@ -328,7 +249,7 @@ const DoubleLinkedList<T> & DoubleLinkedList<T>::operator= (const DoubleLinkedLi
 	if (this != &rhs)
 	{
 		Purge();
-		if (rhs.m_head == nullptr || rhs.m_tail == nullptr)
+		if (rhs.m_head == NULL || rhs.m_tail == NULL)
 		{
 			// empty list -- do nothing, Purge just made this equal
 		}
@@ -336,7 +257,7 @@ const DoubleLinkedList<T> & DoubleLinkedList<T>::operator= (const DoubleLinkedLi
 		{
 			m_head = new Node<T>(*(rhs.m_head));
 			Node<T> * holder = m_head;
-			while (holder->GetNextP() != nullptr)
+			while (holder->GetNextP() != NULL)
 			{
 				holder->SetNextP(new Node<T>(*(holder->GetNextP())));
 				holder->GetNextP()->SetPrevP(holder);
@@ -347,6 +268,24 @@ const DoubleLinkedList<T> & DoubleLinkedList<T>::operator= (const DoubleLinkedLi
 	}
 
 	return *this;
+}
+
+// Delete a list are free all memory used by the list
+// It is erroneous to use the list pointer after caling this routine.
+// Return zero on success
+int Delete_List(linked_list_t list)
+{
+	list_t * this = (*list_t)list; 
+	item_t * tempHead = this->head;
+	this->m_head = NULL;
+	this->m_tail = NULL;
+
+	while (tempHead != NULL)
+	{
+		Node<T> * next = tempHead->GetNextP();
+		delete tempHead;
+		tempHead = next;
+	}
 }
 
 /*********************************************************************
@@ -390,11 +329,11 @@ void DoubleLinkedList<T>::InsertBefore(const T & source, const T & searchTerm)
 template<typename T>
 void DoubleLinkedList<T>::InsertAfterIndex(const T & source, int index)
 {
-	Node<T> * newItem = nullptr;
+	Node<T> * newItem = NULL;
 
-	if (m_head == nullptr && m_tail == nullptr && -1 == index)
+	if (m_head == NULL && m_tail == NULL && -1 == index)
 	{
-		newItem = new Node<T>(nullptr, nullptr, source);
+		newItem = new Node<T>(NULL, NULL, source);
 	}
 	else
 	{
@@ -412,11 +351,11 @@ void DoubleLinkedList<T>::InsertAfterIndex(const T & source, int index)
 template<typename T>
 void DoubleLinkedList<T>::InsertBeforeIndex(const T & source, int index)
 {
-	Node<T> * newItem = nullptr;
+	Node<T> * newItem = NULL;
 
-	if (m_head == nullptr && m_tail == nullptr && 0 == index)
+	if (m_head == NULL && m_tail == NULL && 0 == index)
 	{
-		newItem = new Node<T>(nullptr, nullptr, source);
+		newItem = new Node<T>(NULL, NULL, source);
 	}
 	else
 	{
@@ -434,9 +373,9 @@ void DoubleLinkedList<T>::InsertBeforeIndex(const T & source, int index)
 template<typename T>
 void DoubleLinkedList<T>::Prepend(const T & source)
 {
-	Node<T> * newNode = new Node<T>((Node<T> *)nullptr, m_head, source);
+	Node<T> * newNode = new Node<T>((Node<T> *)NULL, m_head, source);
 	/* Data structure inconsistent after this */
-	if (newNode->GetNextP() == nullptr)
+	if (newNode->GetNextP() == NULL)
 	{
 		m_tail = newNode;
 	}
@@ -455,9 +394,9 @@ void DoubleLinkedList<T>::Prepend(const T & source)
 template<typename T>
 void DoubleLinkedList<T>::Append(const T & source)
 {
-	Node<T> * newNode = new Node<T>(m_tail, (Node<T> *)nullptr, source);
+	Node<T> * newNode = new Node<T>(m_tail, (Node<T> *)NULL, source);
 	/* Data structure inconsistent after this */
-	if (newNode->GetPrevP() == nullptr)
+	if (newNode->GetPrevP() == NULL)
 	{
 		m_head = newNode;
 	}
@@ -477,7 +416,7 @@ void DoubleLinkedList<T>::Append(const T & source)
 template<typename T>
 T DoubleLinkedList<T>::PopFront()
 {
-	if (m_head == nullptr || m_tail == nullptr)
+	if (m_head == NULL || m_tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
@@ -491,16 +430,16 @@ T DoubleLinkedList<T>::PopFront()
 		/* Data structure inconsistent after this */
 
 		// If next front is null, then we just took out the last item in the list
-		if (nextFront == nullptr)
+		if (nextFront == NULL)
 		{
-			m_tail = nullptr;
+			m_tail = NULL;
 		}
 		else
 		{
 			// If its not null, then there is still at least one thing, and we need to update it's 
-			// previous pointer to stop pointing at the old object and set it to nullptr to say it's
+			// previous pointer to stop pointing at the old object and set it to NULL to say it's
 			// at the start of the list
-			nextFront->SetPrevP(nullptr);
+			nextFront->SetPrevP(NULL);
 		}
 		m_head = nextFront;
 		/* Data structure consistent again */
@@ -517,7 +456,7 @@ T DoubleLinkedList<T>::PopFront()
 template<typename T>
 T DoubleLinkedList<T>::PopBack()
 {
-	if (m_head == nullptr || m_tail == nullptr)
+	if (m_head == NULL || m_tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
@@ -530,16 +469,16 @@ T DoubleLinkedList<T>::PopBack()
 		Node<T> * nextBack = toRemove->GetPrevP();
 		/* Data structure inconsistent after this */
 		// If next front is null, then we just took out the last item in the list
-		if (nextBack == nullptr)
+		if (nextBack == NULL)
 		{
-			m_head = nullptr;
+			m_head = NULL;
 		}
 		else
 		{
 			// If its not null, then there is still at least one thing, and we need to update it's 
-			// previous pointer to stop pointing at the old object and set it to nullptr to say it's
+			// previous pointer to stop pointing at the old object and set it to NULL to say it's
 			// at the start of the list
-			nextBack->SetNextP(nullptr);
+			nextBack->SetNextP(NULL);
 		}
 		m_tail = nextBack;
 		/* Data structure consistent again */
@@ -556,7 +495,7 @@ T DoubleLinkedList<T>::PopBack()
 template<typename T>
 const T & DoubleLinkedList<T>::First() const
 {
-	if (m_head == nullptr || m_tail == nullptr)
+	if (m_head == NULL || m_tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
@@ -574,7 +513,7 @@ const T & DoubleLinkedList<T>::First() const
 template<typename T>
 const T & DoubleLinkedList<T>::Last() const
 {
-	if (m_head == nullptr || m_tail == nullptr)
+	if (m_head == NULL || m_tail == NULL)
 	{
 		throw "0 items in list, can't return back";
 	}
@@ -592,7 +531,7 @@ const T & DoubleLinkedList<T>::Last() const
 template<typename T>
 T & DoubleLinkedList<T>::First()
 {
-	if (m_head == nullptr || m_tail == nullptr)
+	if (m_head == NULL || m_tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
@@ -610,7 +549,7 @@ T & DoubleLinkedList<T>::First()
 template<typename T>
 T & DoubleLinkedList<T>::Last()
 {
-	if (m_head == nullptr || m_tail == nullptr)
+	if (m_head == NULL || m_tail == NULL)
 	{
 		throw "0 items in list, can't return back";
 	}
@@ -703,7 +642,7 @@ int DoubleLinkedList<T>::Size() const
 {
 	int size = 0;
 	Node<T> * currentPlace = m_head;
-	while (currentPlace != nullptr)
+	while (currentPlace != NULL)
 	{
 		++size;
 		currentPlace = currentPlace->GetNextP();
