@@ -13,16 +13,12 @@ int main(int argc, char ** argv)
     for (int iterator = 0; iterator < 10; ++iterator)
     {
         Insert_At_Beginning(mylist, iterator);
-        printf("Inserting %d at the beginning of the list.\n", iterator);
     }
     
-    if (10 == Count(mylist))
-    {
-        printf("10 items on the stack now, as expected.\n");
-    }
-    else
+    if (10 != Count(mylist))
     {
         printf("Found %d items on the stack, instead of 10\n", Count(mylist));
+        exit(1);
     }
     
     int expectedStacktop = 9;
@@ -35,15 +31,7 @@ int main(int argc, char ** argv)
             printf("Expected %d at the top of the stack but got %d\n", expectedStacktop, stacktop);
             exit(1);
         }
-        else
-        {
-            printf("Got %d of the stack, as expected.\n", stacktop);
-        }
-        if ( Count(mylist) == stacktop)
-        {
-            printf("Count(mylist) returned the expected number of items.\n");
-        }
-        else
+        if ( Count(mylist) != stacktop)
         {
             printf("Count(mylist) returned an unexpected number of items: %d\n", Count(mylist));
             exit(1);
@@ -53,7 +41,47 @@ int main(int argc, char ** argv)
     if (0 != stacktop)
     {
         printf("Expected 0 now that we should be at the bottom of the stack, but got %d\n", stacktop);
+        exit(1);
     }
+    // If we got this far without calling exit, everything seems good.
+    printf("Stack test of list worked for functions operating at the front.\n");
+    
+    // Now let's try it at the end of the list
+    for (int iterator = 0; iterator < 10; ++iterator)
+    {
+        Insert_At_End(mylist, iterator);
+    }
+    
+    if (10 != Count(mylist))
+    {
+        printf("Found %d items on the stack, instead of 10\n", Count(mylist));
+        exit(1);
+    }
+    
+    expectedStacktop = 9;
+    stacktop = 0;
+    while (! Empty(mylist))
+    {
+        Remove_From_End(mylist, &stacktop);
+        if (stacktop != expectedStacktop)
+        {
+            printf("Expected %d at the top of the stack but got %d\n", expectedStacktop, stacktop);
+            exit(1);
+        }
+        if ( Count(mylist) != stacktop)
+        {
+            printf("Count(mylist) returned an unexpected number of items: %d\n", Count(mylist));
+            exit(1);
+        }
+        --expectedStacktop;
+    }
+    if (0 != stacktop)
+    {
+        printf("Expected 0 now that we should be at the bottom of the stack, but got %d\n", stacktop);
+        exit(1);
+    }
+    // If we got this far without calling exit, everything seems good.
+    printf("Stack test of list worked for functions operating at the end.\n");
     
     Delete_List(mylist);
     free(mylist);
