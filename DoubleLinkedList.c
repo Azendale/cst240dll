@@ -30,8 +30,8 @@ int Count(linked_list_t)
 linked_list_t* Init_List()
 {
 	list_t * this = (list_t *)malloc(sizeof(list_t));
-	head = NULL;
-	tail = NULL;
+	this->head = NULL;
+	this->tail = NULL;
 	count = 0;
 	return (linked_list_t *)this;
 }
@@ -50,7 +50,7 @@ int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 	list_t * this = (*list_t)list; 
 	if (toRemove->prev == NULL)
 	{
-		head = toRemove->next;
+		this->head = toRemove->next;
 	}
 	else
 	{
@@ -58,7 +58,7 @@ int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 	}
 	if (toRemove->next == NULL)
 	{
-		tail = toRemove->prev;
+		this->tail = toRemove->prev;
 	}
 	else
 	{
@@ -78,10 +78,10 @@ int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 {
 	list_t * this = (*list_t)list; 
-	// if true, @ end of list, update tail pointer
+	// if true, @ end of list, update this->tail pointer
 	if (newItem->next == NULL) 
 	{
-		tail = newItem;
+		this->tail = newItem;
 	}
 	else
 	{
@@ -90,7 +90,7 @@ void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 	// if true, @ start of list, update head pointer
 	if (newItem->prev == NULL)
 	{
-		head = newItem;
+		this->head = newItem;
 	}
 	else
 	{
@@ -105,9 +105,9 @@ void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 void DLL_Purge(linked_list_t list, linked_list_t list)
 {
 	list_t * this = (*list_t)list; 
-	item_t * tempHead = head;
-	head = NULL;
-	tail = NULL;
+	item_t * tempHead = this->head;
+	this->head = NULL;
+	this->tail = NULL;
 
 	while (tempHead != NULL)
 	{
@@ -126,7 +126,7 @@ int Empty(linked_list_t list);
 int DLL_isEmpty(linked_list_t list, linked_list_t l) const
 {
 	list_t * this = (*list_t)l; 
-	if (head == NULL || tail == NULL)
+	if (this->head == NULL || this->tail == NULL)
 	{
 		return 1;
 	}
@@ -147,7 +147,7 @@ item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) c
 	item_t * temp = NULL;
 	if (backward)
 	{
-		temp = tail;
+		temp = this->tail;
 		// Using short-circuit logic here to avoid NULL dereference
 		while (temp != NULL && temp->GetData() != searchTerm)
 		{
@@ -156,7 +156,7 @@ item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) c
 	}
 	else
 	{
-		temp = head;
+		temp = this->head;
 		while (temp != NULL && temp->GetData() != searchTerm)
 		{
 			temp = temp->next;
@@ -177,7 +177,7 @@ item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) c
 item_t * DLL_GetIndex(linked_list_t list, int index) const
 {
 	list_t * this = (*list_t)list; 
-	if (head == NULL || tail == NULL)
+	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "Empty list.";
 	}
@@ -185,7 +185,7 @@ item_t * DLL_GetIndex(linked_list_t list, int index) const
 	{
 		throw "Negative index.";
 	}
-	item_t * temp = head;
+	item_t * temp = this->head;
 	int position = 0;
 	while (position < index)
 	{
@@ -238,7 +238,7 @@ const DoubleLinkedList<T> & DoubleLinkedList<T>::operator= (const DoubleLinkedLi
 				holder->next->prev = holder);
 				holder = holder->next;
 			}
-			tail = holder;
+			this->tail = holder;
 		}
 	}
 
@@ -305,7 +305,7 @@ void DLL_InsertAfterIndex(linked_list_t list, const T & source, int index)
 	list_t * this = (*list_t)list; 
 	item_t * newItem = NULL;
 
-	if (head == NULL && tail == NULL && -1 == index)
+	if (this->head == NULL && this->tail == NULL && -1 == index)
 	{
 		newItem = new item_t(NULL, NULL, source);
 	}
@@ -327,7 +327,7 @@ void DLL_InsertBeforeIndex(linked_list_t list, const T & source, int index)
 	list_t * this = (*list_t)list; 
 	item_t * newItem = NULL;
 
-	if (head == NULL && tail == NULL && 0 == index)
+	if (this->head == NULL && this->tail == NULL && 0 == index)
 	{
 		newItem = new item_t(NULL, NULL, source);
 	}
@@ -354,17 +354,17 @@ int Insert_At_Beginning(linked_list_t list, int data);
 void DLL_Prepend(linked_list_t list, const T & source)
 {
 	list_t * this = (*list_t)list; 
-	item_t * newNode = new item_t((item_t *)NULL, head, source);
+	item_t * newNode = new item_t((item_t *)NULL, this->head, source);
 	/* Data structure inconsistent after this */
 	if (newNode->next == NULL)
 	{
-		tail = newNode;
+		this->tail = newNode;
 	}
 	else
 	{
 		newNode->next->prev = newNode);
 	}
-	head = newNode;
+	this->head = newNode;
 	/* Data structure consistent again */
 }
 
@@ -382,17 +382,17 @@ int Insert_At_End(linked_list_t list, int data);
 void DLL_Append(linked_list_t list, const T & source)
 {
 	list_t * this = (*list_t)list; 
-	item_t * newNode = new item_t(tail, (item_t *)NULL, source);
+	item_t * newNode = new item_t(this->tail, (item_t *)NULL, source);
 	/* Data structure inconsistent after this */
 	if (newNode->prev == NULL)
 	{
-		head = newNode;
+		this->head = newNode;
 	}
 	else
 	{
 		newNode->prev->next = newNode);
 	}
-	tail = newNode;
+	this->tail = newNode;
 	/* Data structure consistent again */
 }
 
@@ -412,14 +412,14 @@ int Remove_From_Beginning(linked_list_t list, int* data);
 T DLL_PopFront(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
-	if (head == NULL || tail == NULL)
+	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
 	else
 	{
 		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
-		item_t * toRemove = head;
+		item_t * toRemove = this->head;
 		T temp = toRemove->GetData();
 		// Go to the next node, the one that will be the in front when we are done
 		item_t * nextFront = toRemove->next;
@@ -428,7 +428,7 @@ T DLL_PopFront(linked_list_t list, )
 		// If next front is null, then we just took out the last item in the list
 		if (nextFront == NULL)
 		{
-			tail = NULL;
+			this->tail = NULL;
 		}
 		else
 		{
@@ -437,7 +437,7 @@ T DLL_PopFront(linked_list_t list, )
 			// at the start of the list
 			nextFront->prev = NULL);
 		}
-		head = nextFront;
+		this->head = nextFront;
 		/* Data structure consistent again */
 		delete toRemove;
 		return temp;
@@ -460,14 +460,14 @@ int Remove_From_End(linked_list_t list, int* data);
 T DLL_PopBack(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
-	if (head == NULL || tail == NULL)
+	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
 	else
 	{
 		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
-		item_t * toRemove = tail;
+		item_t * toRemove = this->tail;
 		T temp = toRemove->GetData();
 		// Go to the next node, the one that will be the in front when we are done
 		item_t * nextBack = toRemove->prev;
@@ -475,7 +475,7 @@ T DLL_PopBack(linked_list_t list, )
 		// If next front is null, then we just took out the last item in the list
 		if (nextBack == NULL)
 		{
-			head = NULL;
+			this->head = NULL;
 		}
 		else
 		{
@@ -484,7 +484,7 @@ T DLL_PopBack(linked_list_t list, )
 			// at the start of the list
 			nextBack->next = NULL);
 		}
-		tail = nextBack;
+		this->tail = nextBack;
 		/* Data structure consistent again */
 		delete toRemove;
 		return temp;
@@ -499,7 +499,7 @@ T DLL_PopBack(linked_list_t list, )
 const T & DLL_First(linked_list_t list, ) const
 {
 	list_t * this = (*list_t)list; 
-	if (head == NULL || tail == NULL)
+	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
@@ -517,13 +517,13 @@ const T & DLL_First(linked_list_t list, ) const
 const T & DLL_Last(linked_list_t list, ) const
 {
 	list_t * this = (*list_t)list; 
-	if (head == NULL || tail == NULL)
+	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return back";
 	}
 	else
 	{
-		return tail->GetData();
+		return this->tail->GetData();
 	}
 }
 
@@ -535,13 +535,13 @@ const T & DLL_Last(linked_list_t list, ) const
 T & DLL_First(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
-	if (head == NULL || tail == NULL)
+	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
 	else
 	{
-		return head->GetData();
+		return this->head->GetData();
 	}
 }
 
@@ -553,13 +553,13 @@ T & DLL_First(linked_list_t list, )
 T & DLL_Last(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
-	if (head == NULL || tail == NULL)
+	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return back";
 	}
 	else
 	{
-		return tail->GetData();
+		return this->tail->GetData();
 	}
 }
 
@@ -644,7 +644,7 @@ int DLL_Size(linked_list_t list, ) const
 {
 	list_t * this = (*list_t)list; 
 	int size = 0;
-	item_t * currentPlace = head;
+	item_t * currentPlace = this->head;
 	while (currentPlace != NULL)
 	{
 		++size;
