@@ -18,7 +18,14 @@ typedef struct list_s
 	int count;
 } list_t;
 
-
+item_t * NewItem_t(item_t * p, item_t * n, int d)
+{
+	item_t * this = malloc(sizeof(item_t));
+	this->data = d;
+	this->next = n;
+	this->prev = p;
+	return this;
+}
 
 int Count(linked_list_t)
 {
@@ -158,10 +165,6 @@ item_t * DLL_FindData(linked_list_t list, int searchTerm, int backward)
 			temp = temp->next;
 		}
 	}
-	if (NULL == temp)
-	{
-		throw "Did not find data that matches the search.";
-	}
 	return temp;
 }
 
@@ -200,47 +203,6 @@ item_t * DLL_GetIndex(linked_list_t list, int index)
 }
 
 
-/*********************************************************************
-* Purpose: Create a copy of source, including all the data elements.
-* Entry: source in a valid state.
-* Exit: This object created as a copy of source.
-********************************************************************/
-DLL_DoubleLinkedList(linked_list_t list, const DoubleLinkedList & source) : head(NULL), tail(NULL)
-{
-	*this = source;
-}
-
-/*********************************************************************
-* Purpose: Set this object equal to rhs, making a full copy of all data elements.
-* Entry: rhs a valid DoubleLinkedList object.
-* Exit: This set to be a copy of rhs, old data deleted.
-********************************************************************/
-const DoubleLinkedList<T> & DoubleLinkedList<T>::operator= (const DoubleLinkedList & rhs)
-{
-	if (this != &rhs)
-	{
-		Purge();
-		if (rhs.head == NULL || rhs.tail == NULL)
-		{
-			// empty list -- do nothing, Purge just made this equal
-		}
-		else
-		{
-			head = new item_t(*(rhs.head));
-			item_t * holder = head;
-			while (holder->next != NULL)
-			{
-				holder->next = new item_t(*(holder->next)));
-				holder->next->prev = holder);
-				holder = holder->next;
-			}
-			this->tail = holder;
-		}
-	}
-
-	return *this;
-}
-
 // Delete a list are free all memory used by the list
 // It is erroneous to use the list pointer after caling this routine.
 // Return zero on success
@@ -254,18 +216,9 @@ int Delete_List(linked_list_t list)
 	while (tempHead != NULL)
 	{
 		item_t * next = tempHead->next;
-		delete tempHead;
+		free(tempHead);
 		tempHead = next;
 	}
-}
-
-/*********************************************************************
-* Purpose: Clean up any memory dynamically allocated by this object.
-* Exit: No dynamically allocated memory reserved by this object.
-********************************************************************/
-DoubleLinkedList<T>::~DoubleLinkedList()
-{
-	Purge();
 }
 
 /*********************************************************************
@@ -275,8 +228,8 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 void DLL_InsertAfter(linked_list_t list, int source, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
-	item_t * posReference = this->FindData(searchTerm, true);
-	item_t * newItem = new item_t(posReference, posReference->next, source);
+	item_t * posReference = this->FindData(searchTerm, 1); // Magic 1 is true
+	item_t * newItem = NewItem_t(posReference, posReference->next, source);
 	this->wedgeNode(newItem);
 }
 
@@ -288,7 +241,7 @@ void DLL_InsertBefore(linked_list_t list, int source, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
 	item_t * posReference = this->FindData(searchTerm);
-	item_t * newItem = new item_t(posReference->prev, posReference, source);
+	item_t * newItem = NewItem_t(posReference->prev, posReference, source);
 	this->wedgeNode(newItem);
 }
 
@@ -303,12 +256,12 @@ void DLL_InsertAfterIndex(linked_list_t list, int source, int index)
 
 	if (this->head == NULL && this->tail == NULL && -1 == index)
 	{
-		newItem = new item_t(NULL, NULL, source);
+		newItem = NewItem_t(NULL, NULL, source);
 	}
 	else
 	{
 		item_t * currentIndex = this->GetIndex(index);
-		newItem = new item_t(currentIndex, currentIndex->next, source);
+		newItem = NewItem_t(currentIndex, currentIndex->next, source);
 	}
 
 	this->wedgeNode(newItem);
@@ -325,12 +278,12 @@ void DLL_InsertBeforeIndex(linked_list_t list, int source, int index)
 
 	if (this->head == NULL && this->tail == NULL && 0 == index)
 	{
-		newItem = new item_t(NULL, NULL, source);
+		newItem = NewItem_t(NULL, NULL, source);
 	}
 	else
 	{
 		item_t * currentIndex = this->GetIndex(index);
-		newItem = new item_t(currentIndex->prev, currentIndex, source);
+		newItem = NewItem_t(currentIndex->prev, currentIndex, source);
 	}
 	
 	this->wedgeNode(newItem);
@@ -350,7 +303,7 @@ int Insert_At_Beginning(linked_list_t list, int data);
 void DLL_Prepend(linked_list_t list, int source)
 {
 	list_t * this = (*list_t)list; 
-	item_t * newNode = new item_t((item_t *)NULL, this->head, source);
+	item_t * newNode = NewItem_t((item_t *)NULL, this->head, source);
 	/* Data structure inconsistent after this */
 	if (newNode->next == NULL)
 	{
@@ -378,7 +331,7 @@ int Insert_At_End(linked_list_t list, int data);
 void DLL_Append(linked_list_t list, int source)
 {
 	list_t * this = (*list_t)list; 
-	item_t * newNode = new item_t(this->tail, (item_t *)NULL, source);
+	item_t * newNode = NewItem_t(this->tail, (item_t *)NULL, source);
 	/* Data structure inconsistent after this */
 	if (newNode->prev == NULL)
 	{
