@@ -137,7 +137,7 @@ int Empty(linked_list_t list);
 * Entry: At least one item matching searchTerm in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
-item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) const
+item_t * DLL_FindData(linked_list_t list, int searchTerm, bool backward) const
 {
 	list_t * this = (*list_t)list; 
 	item_t * temp = NULL;
@@ -272,7 +272,7 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 * Purpose: Insert a copy of source before the first occurence of an item matching searchTerm.
 * Entry: At least one item matching searchTerm in the list.
 ********************************************************************/
-void DLL_InsertAfter(linked_list_t list, const T & source, const T & searchTerm)
+void DLL_InsertAfter(linked_list_t list, int source, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
 	item_t * posReference = this->FindData(searchTerm, true);
@@ -284,7 +284,7 @@ void DLL_InsertAfter(linked_list_t list, const T & source, const T & searchTerm)
 * Purpose: Insert a copy of source before the first occurence of an item matching searchTerm.
 * Entry: At least one item matching searchTerm in the list.
 ********************************************************************/
-void DLL_InsertBefore(linked_list_t list, const T & source, const T & searchTerm)
+void DLL_InsertBefore(linked_list_t list, int source, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
 	item_t * posReference = this->FindData(searchTerm);
@@ -296,7 +296,7 @@ void DLL_InsertBefore(linked_list_t list, const T & source, const T & searchTerm
 * Purpose: Insert a copy of source after the item at index.
 * Entry: Length of the list must be at least index+1 items
 ********************************************************************/
-void DLL_InsertAfterIndex(linked_list_t list, const T & source, int index)
+void DLL_InsertAfterIndex(linked_list_t list, int source, int index)
 {
 	list_t * this = (*list_t)list; 
 	item_t * newItem = NULL;
@@ -318,7 +318,7 @@ void DLL_InsertAfterIndex(linked_list_t list, const T & source, int index)
 * Purpose: Insert a copy of source before the item at index.
 * Entry: Length of the list must be at least index+1 items
 ********************************************************************/
-void DLL_InsertBeforeIndex(linked_list_t list, const T & source, int index)
+void DLL_InsertBeforeIndex(linked_list_t list, int source, int index)
 {
 	list_t * this = (*list_t)list; 
 	item_t * newItem = NULL;
@@ -347,7 +347,7 @@ int Insert_At_Beginning(linked_list_t list, int data);
 * Purpose: Add a new element at the start of the list that is a copy of source.
 * Exit: New item inserted at the start of the list, and old items back pointer updated.
 ********************************************************************/
-void DLL_Prepend(linked_list_t list, const T & source)
+void DLL_Prepend(linked_list_t list, int source)
 {
 	list_t * this = (*list_t)list; 
 	item_t * newNode = new item_t((item_t *)NULL, this->head, source);
@@ -375,7 +375,7 @@ int Insert_At_End(linked_list_t list, int data);
 * Purpose: Add a new element at the end of the list that is a copy of source.
 * Exit: New item inserted at the end of the list, old last items forward pointer updated.
 ********************************************************************/
-void DLL_Append(linked_list_t list, const T & source)
+void DLL_Append(linked_list_t list, int source)
 {
 	list_t * this = (*list_t)list; 
 	item_t * newNode = new item_t(this->tail, (item_t *)NULL, source);
@@ -492,7 +492,7 @@ T DLL_PopBack(linked_list_t list, )
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-const T & DLL_First(linked_list_t list, ) const
+int DLL_First(linked_list_t list, ) const
 {
 	list_t * this = (*list_t)list; 
 	if (this->head == NULL || this->tail == NULL)
@@ -510,7 +510,7 @@ const T & DLL_First(linked_list_t list, ) const
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-const T & DLL_Last(linked_list_t list, ) const
+int DLL_Last(linked_list_t list, ) const
 {
 	list_t * this = (*list_t)list; 
 	if (this->head == NULL || this->tail == NULL)
@@ -575,7 +575,7 @@ T & DLL_GetIthElement(linked_list_t list, int index)
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-const T & DLL_GetIthElement(linked_list_t list, int index) const
+int DLL_GetIthElement(linked_list_t list, int index) const
 {
 	list_t * this = (*list_t)list; 
 	return this->GetIndex(index)->GetData();
@@ -596,7 +596,7 @@ T & DoubleLinkedList<T>::operator[](int index)
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-const T & DoubleLinkedList<T>::operator[](int index) const
+int DoubleLinkedList<T>::operator[](int index) const
 {
 	return GetIthElement(index);
 }
@@ -622,7 +622,7 @@ T DLL_ExtractIndex(linked_list_t list, int index)
 * Entry: At least one item matching searchTerm in the list.
 * Exit: Item removed from list, with item(s) previously on either side linked to each other
 ********************************************************************/
-T DLL_Extract(linked_list_t list, const T & searchTerm)
+T DLL_Extract(linked_list_t list, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
 	item_t * temp = this->FindData(searchTerm);
