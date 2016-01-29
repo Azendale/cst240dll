@@ -104,6 +104,12 @@ int main(int argc, char ** argv)
     
     Traverse(mylist, intPrinter);
     
+    if (Count(mylist) != 20)
+    {
+        printf("Expected count of list after random insertion, should be 20 but it was %d\n", Count(mylist));
+        exit(1);
+    }
+    
     Delete_List(mylist);
     free(mylist);
     mylist = NULL;
