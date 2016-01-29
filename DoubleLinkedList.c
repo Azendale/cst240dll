@@ -59,9 +59,11 @@ int Count(linked_list_t);
 // Return pointer to list. Return NULL on failure.
 linked_list_t* Init_List()
 {
+	list_t * this = (list_t *)malloc(sizeof(list_t));
 	head = NULL;
 	tail = NULL;
 	count = 0;
+	return (linked_list_t *)this;
 }
 
 
@@ -168,6 +170,7 @@ int DLL_isEmpty(linked_list_t list, linked_list_t l) const
 ********************************************************************/
 item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) const
 {
+	list_t * this = (*list_t)list; 
 	item_t * temp = NULL;
 	if (backward)
 	{
@@ -200,6 +203,7 @@ item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) c
 ********************************************************************/
 item_t * DLL_GetIndex(linked_list_t list, int index) const
 {
+	list_t * this = (*list_t)list; 
 	if (head == NULL || tail == NULL)
 	{
 		throw "Empty list.";
@@ -301,6 +305,7 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 ********************************************************************/
 void DLL_InsertAfter(linked_list_t list, const T & source, const T & searchTerm)
 {
+	list_t * this = (*list_t)list; 
 	item_t * posReference = this->FindData(searchTerm, true);
 	item_t * newItem = new item_t(posReference, posReference->next, source);
 	this->wedgeNode(newItem);
@@ -312,6 +317,7 @@ void DLL_InsertAfter(linked_list_t list, const T & source, const T & searchTerm)
 ********************************************************************/
 void DLL_InsertBefore(linked_list_t list, const T & source, const T & searchTerm)
 {
+	list_t * this = (*list_t)list; 
 	item_t * posReference = this->FindData(searchTerm);
 	item_t * newItem = new item_t(posReference->prev, posReference, source);
 	this->wedgeNode(newItem);
@@ -323,6 +329,7 @@ void DLL_InsertBefore(linked_list_t list, const T & source, const T & searchTerm
 ********************************************************************/
 void DLL_InsertAfterIndex(linked_list_t list, const T & source, int index)
 {
+	list_t * this = (*list_t)list; 
 	item_t * newItem = NULL;
 
 	if (head == NULL && tail == NULL && -1 == index)
@@ -344,6 +351,7 @@ void DLL_InsertAfterIndex(linked_list_t list, const T & source, int index)
 ********************************************************************/
 void DLL_InsertBeforeIndex(linked_list_t list, const T & source, int index)
 {
+	list_t * this = (*list_t)list; 
 	item_t * newItem = NULL;
 
 	if (head == NULL && tail == NULL && 0 == index)
@@ -365,6 +373,7 @@ void DLL_InsertBeforeIndex(linked_list_t list, const T & source, int index)
 ********************************************************************/
 void DLL_Prepend(linked_list_t list, const T & source)
 {
+	list_t * this = (*list_t)list; 
 	item_t * newNode = new item_t((item_t *)NULL, head, source);
 	/* Data structure inconsistent after this */
 	if (newNode->next == NULL)
@@ -385,6 +394,7 @@ void DLL_Prepend(linked_list_t list, const T & source)
 ********************************************************************/
 void DLL_Append(linked_list_t list, const T & source)
 {
+	list_t * this = (*list_t)list; 
 	item_t * newNode = new item_t(tail, (item_t *)NULL, source);
 	/* Data structure inconsistent after this */
 	if (newNode->prev == NULL)
@@ -406,6 +416,7 @@ void DLL_Append(linked_list_t list, const T & source)
 ********************************************************************/
 T DLL_PopFront(linked_list_t list, )
 {
+	list_t * this = (*list_t)list; 
 	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return front";
@@ -445,6 +456,7 @@ T DLL_PopFront(linked_list_t list, )
 ********************************************************************/
 T DLL_PopBack(linked_list_t list, )
 {
+	list_t * this = (*list_t)list; 
 	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return front";
@@ -483,6 +495,7 @@ T DLL_PopBack(linked_list_t list, )
 ********************************************************************/
 const T & DLL_First(linked_list_t list, ) const
 {
+	list_t * this = (*list_t)list; 
 	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return front";
@@ -500,6 +513,7 @@ const T & DLL_First(linked_list_t list, ) const
 ********************************************************************/
 const T & DLL_Last(linked_list_t list, ) const
 {
+	list_t * this = (*list_t)list; 
 	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return back";
@@ -517,6 +531,7 @@ const T & DLL_Last(linked_list_t list, ) const
 ********************************************************************/
 T & DLL_First(linked_list_t list, )
 {
+	list_t * this = (*list_t)list; 
 	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return front";
@@ -534,6 +549,7 @@ T & DLL_First(linked_list_t list, )
 ********************************************************************/
 T & DLL_Last(linked_list_t list, )
 {
+	list_t * this = (*list_t)list; 
 	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return back";
@@ -551,6 +567,7 @@ T & DLL_Last(linked_list_t list, )
 ********************************************************************/
 T & DLL_GetIthElement(linked_list_t list, int index)
 {
+	list_t * this = (*list_t)list; 
 	return this->GetIndex(index)->GetData();
 }
 
@@ -561,6 +578,7 @@ T & DLL_GetIthElement(linked_list_t list, int index)
 ********************************************************************/
 const T & DLL_GetIthElement(linked_list_t list, int index) const
 {
+	list_t * this = (*list_t)list; 
 	return this->GetIndex(index)->GetData();
 }
 
@@ -592,6 +610,7 @@ const T & DoubleLinkedList<T>::operator[](int index) const
 ********************************************************************/
 T DLL_ExtractIndex(linked_list_t list, int index)
 {
+	list_t * this = (*list_t)list; 
 	item_t * toRemove = this->GetIndex(index);
 	T returnVal = toRemove->GetData();
 	this->RemoveNode(toRemove);
@@ -606,6 +625,7 @@ T DLL_ExtractIndex(linked_list_t list, int index)
 ********************************************************************/
 T DLL_Extract(linked_list_t list, const T & searchTerm)
 {
+	list_t * this = (*list_t)list; 
 	item_t * temp = this->FindData(searchTerm);
 	T returnVal = temp->GetData();
 	this->RemoveNode(temp);
@@ -619,6 +639,7 @@ T DLL_Extract(linked_list_t list, const T & searchTerm)
 template <typename T>
 int DLL_Size(linked_list_t list, ) const
 {
+	list_t * this = (*list_t)list; 
 	int size = 0;
 	item_t * currentPlace = head;
 	while (currentPlace != NULL)
