@@ -103,8 +103,7 @@ int DoubleLinkedList<T>::RemoveNode(linked_list_t list, item_t * toRemove)
 *  Entry: Node pointed to by newItem has the next and previous pointers
 *  pointed at two adjacent nodes in the list.
 *********************************************************************/
-template<typename T>
-void DoubleLinkedList<T>::wedgeNode(item_t * newItem)
+void DoubleLinkedList<T>::wedgeNode(linked_list_t list, item_t * newItem)
 {
 	list_t * this = (*list_t)list; 
 	// if true, @ end of list, update tail pointer
@@ -131,8 +130,7 @@ void DoubleLinkedList<T>::wedgeNode(item_t * newItem)
 * Purpose: Remove all elements of the list, leaving an empty list.
 * Exit: List empty, no dynamically allocated memory left.
 ********************************************************************/
-template<typename T>
-void DoubleLinkedList<T>::Purge()
+void DoubleLinkedList<T>::Purge(linked_list_t list)
 {
 	list_t * this = (*list_t)list; 
 	item_t * tempHead = m_head;
@@ -152,7 +150,7 @@ void DoubleLinkedList<T>::Purge()
 ********************************************************************/
 int DoubleLinkedList<T>::isEmpty(linked_list_t l) const
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (*list_t)l; 
 	if (m_head == NULL || m_tail == NULL)
 	{
 		return 1;
@@ -168,7 +166,6 @@ int DoubleLinkedList<T>::isEmpty(linked_list_t l) const
 * Entry: At least one item matching searchTerm in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
-template<typename T>
 item_t * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) const
 {
 	item_t * temp = NULL;
@@ -201,7 +198,6 @@ item_t * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) cons
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
-template<typename T>
 item_t * DoubleLinkedList<T>::GetIndex(int index) const
 {
 	if (m_head == NULL || m_tail == NULL)
@@ -236,7 +232,6 @@ item_t * DoubleLinkedList<T>::GetIndex(int index) const
 * Entry: source in a valid state.
 * Exit: This object created as a copy of source.
 ********************************************************************/
-template<typename T>
 DoubleLinkedList<T>::DoubleLinkedList(const DoubleLinkedList & source) : m_head(NULL), m_tail(NULL)
 {
 	*this = source;
@@ -247,7 +242,6 @@ DoubleLinkedList<T>::DoubleLinkedList(const DoubleLinkedList & source) : m_head(
 * Entry: rhs a valid DoubleLinkedList object.
 * Exit: This set to be a copy of rhs, old data deleted.
 ********************************************************************/
-template<typename T>
 const DoubleLinkedList<T> & DoubleLinkedList<T>::operator= (const DoubleLinkedList & rhs)
 {
 	if (this != &rhs)
@@ -296,7 +290,6 @@ int Delete_List(linked_list_t list)
 * Purpose: Clean up any memory dynamically allocated by this object.
 * Exit: No dynamically allocated memory reserved by this object.
 ********************************************************************/
-template<typename T>
 DoubleLinkedList<T>::~DoubleLinkedList()
 {
 	Purge();
@@ -306,7 +299,6 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 * Purpose: Insert a copy of source before the first occurence of an item matching searchTerm.
 * Entry: At least one item matching searchTerm in the list.
 ********************************************************************/
-template<typename T>
 void DoubleLinkedList<T>::InsertAfter(const T & source, const T & searchTerm)
 {
 	item_t * posReference = this->FindData(searchTerm, true);
@@ -318,7 +310,6 @@ void DoubleLinkedList<T>::InsertAfter(const T & source, const T & searchTerm)
 * Purpose: Insert a copy of source before the first occurence of an item matching searchTerm.
 * Entry: At least one item matching searchTerm in the list.
 ********************************************************************/
-template<typename T>
 void DoubleLinkedList<T>::InsertBefore(const T & source, const T & searchTerm)
 {
 	item_t * posReference = this->FindData(searchTerm);
@@ -330,7 +321,6 @@ void DoubleLinkedList<T>::InsertBefore(const T & source, const T & searchTerm)
 * Purpose: Insert a copy of source after the item at index.
 * Entry: Length of the list must be at least index+1 items
 ********************************************************************/
-template<typename T>
 void DoubleLinkedList<T>::InsertAfterIndex(const T & source, int index)
 {
 	item_t * newItem = NULL;
@@ -352,7 +342,6 @@ void DoubleLinkedList<T>::InsertAfterIndex(const T & source, int index)
 * Purpose: Insert a copy of source before the item at index.
 * Entry: Length of the list must be at least index+1 items
 ********************************************************************/
-template<typename T>
 void DoubleLinkedList<T>::InsertBeforeIndex(const T & source, int index)
 {
 	item_t * newItem = NULL;
@@ -374,7 +363,6 @@ void DoubleLinkedList<T>::InsertBeforeIndex(const T & source, int index)
 * Purpose: Add a new element at the start of the list that is a copy of source.
 * Exit: New item inserted at the start of the list, and old items back pointer updated.
 ********************************************************************/
-template<typename T>
 void DoubleLinkedList<T>::Prepend(const T & source)
 {
 	item_t * newNode = new item_t((item_t *)NULL, m_head, source);
@@ -395,7 +383,6 @@ void DoubleLinkedList<T>::Prepend(const T & source)
 * Purpose: Add a new element at the end of the list that is a copy of source.
 * Exit: New item inserted at the end of the list, old last items forward pointer updated.
 ********************************************************************/
-template<typename T>
 void DoubleLinkedList<T>::Append(const T & source)
 {
 	item_t * newNode = new item_t(m_tail, (item_t *)NULL, source);
@@ -417,7 +404,6 @@ void DoubleLinkedList<T>::Append(const T & source)
 * Entry: At least one item in the list.
 * Exit: First item removed from the list.
 ********************************************************************/
-template<typename T>
 T DoubleLinkedList<T>::PopFront()
 {
 	if (m_head == NULL || m_tail == NULL)
@@ -457,7 +443,6 @@ T DoubleLinkedList<T>::PopFront()
 * Entry: At least one item in the list.
 * Exit: Last item removed from the list.
 ********************************************************************/
-template<typename T>
 T DoubleLinkedList<T>::PopBack()
 {
 	if (m_head == NULL || m_tail == NULL)
@@ -496,7 +481,6 @@ T DoubleLinkedList<T>::PopBack()
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-template<typename T>
 const T & DoubleLinkedList<T>::First() const
 {
 	if (m_head == NULL || m_tail == NULL)
@@ -514,7 +498,6 @@ const T & DoubleLinkedList<T>::First() const
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-template<typename T>
 const T & DoubleLinkedList<T>::Last() const
 {
 	if (m_head == NULL || m_tail == NULL)
@@ -532,7 +515,6 @@ const T & DoubleLinkedList<T>::Last() const
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-template<typename T>
 T & DoubleLinkedList<T>::First()
 {
 	if (m_head == NULL || m_tail == NULL)
@@ -550,7 +532,6 @@ T & DoubleLinkedList<T>::First()
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-template<typename T>
 T & DoubleLinkedList<T>::Last()
 {
 	if (m_head == NULL || m_tail == NULL)
@@ -568,7 +549,6 @@ T & DoubleLinkedList<T>::Last()
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-template<typename T>
 T & DoubleLinkedList<T>::GetIthElement(int index)
 {
 	return this->GetIndex(index)->GetData();
@@ -579,7 +559,6 @@ T & DoubleLinkedList<T>::GetIthElement(int index)
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-template<typename T>
 const T & DoubleLinkedList<T>::GetIthElement(int index) const
 {
 	return this->GetIndex(index)->GetData();
@@ -590,7 +569,6 @@ const T & DoubleLinkedList<T>::GetIthElement(int index) const
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-template<typename T>
 T & DoubleLinkedList<T>::operator[](int index)
 {
 	return GetIthElement(index);
@@ -601,7 +579,6 @@ T & DoubleLinkedList<T>::operator[](int index)
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-template<typename T>
 const T & DoubleLinkedList<T>::operator[](int index) const
 {
 	return GetIthElement(index);
@@ -613,7 +590,6 @@ const T & DoubleLinkedList<T>::operator[](int index) const
 * Entry: At least index+1 items in the list.
 * Exit: Item removed from list, with item(s) previously on either side linked to each other
 ********************************************************************/
-template<typename T>
 T DoubleLinkedList<T>::ExtractIndex(int index)
 {
 	item_t * toRemove = this->GetIndex(index);
@@ -628,7 +604,6 @@ T DoubleLinkedList<T>::ExtractIndex(int index)
 * Entry: At least one item matching searchTerm in the list.
 * Exit: Item removed from list, with item(s) previously on either side linked to each other
 ********************************************************************/
-template<typename T>
 T DoubleLinkedList<T>::Extract(const T & searchTerm)
 {
 	item_t * temp = this->FindData(searchTerm);
