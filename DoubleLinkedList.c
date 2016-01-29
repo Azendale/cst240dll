@@ -137,7 +137,7 @@ int Empty(linked_list_t list);
 * Entry: At least one item matching searchTerm in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
-item_t * DLL_FindData(linked_list_t list, int searchTerm, bool backward)
+item_t * DLL_FindData(linked_list_t list, int searchTerm, int backward)
 {
 	list_t * this = (*list_t)list; 
 	item_t * temp = NULL;
@@ -145,7 +145,7 @@ item_t * DLL_FindData(linked_list_t list, int searchTerm, bool backward)
 	{
 		temp = this->tail;
 		// Using short-circuit logic here to avoid NULL dereference
-		while (temp != NULL && temp->GetData() != searchTerm)
+		while (temp != NULL && temp->data != searchTerm)
 		{
 			temp = temp->prev;
 		}
@@ -153,7 +153,7 @@ item_t * DLL_FindData(linked_list_t list, int searchTerm, bool backward)
 	else
 	{
 		temp = this->head;
-		while (temp != NULL && temp->GetData() != searchTerm)
+		while (temp != NULL && temp->data != searchTerm)
 		{
 			temp = temp->next;
 		}
@@ -416,7 +416,7 @@ T DLL_PopFront(linked_list_t list, )
 	{
 		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
 		item_t * toRemove = this->head;
-		T temp = toRemove->GetData();
+		T temp = toRemove->data;
 		// Go to the next node, the one that will be the in front when we are done
 		item_t * nextFront = toRemove->next;
 		/* Data structure inconsistent after this */
@@ -464,7 +464,7 @@ T DLL_PopBack(linked_list_t list, )
 	{
 		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
 		item_t * toRemove = this->tail;
-		T temp = toRemove->GetData();
+		T temp = toRemove->data;
 		// Go to the next node, the one that will be the in front when we are done
 		item_t * nextBack = toRemove->prev;
 		/* Data structure inconsistent after this */
@@ -501,7 +501,7 @@ int DLL_First(linked_list_t list, )
 	}
 	else
 	{
-		return head->GetData();
+		return head->data;
 	}
 }
 
@@ -519,7 +519,7 @@ int DLL_Last(linked_list_t list, )
 	}
 	else
 	{
-		return this->tail->GetData();
+		return this->tail->data;
 	}
 }
 
@@ -537,7 +537,7 @@ T & DLL_First(linked_list_t list, )
 	}
 	else
 	{
-		return this->head->GetData();
+		return this->head->data;
 	}
 }
 
@@ -555,7 +555,7 @@ T & DLL_Last(linked_list_t list, )
 	}
 	else
 	{
-		return this->tail->GetData();
+		return this->tail->data;
 	}
 }
 
@@ -567,7 +567,7 @@ T & DLL_Last(linked_list_t list, )
 T & DLL_GetIthElement(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
-	return this->GetIndex(index)->GetData();
+	return this->GetIndex(index)->data;
 }
 
 /*********************************************************************
@@ -578,7 +578,7 @@ T & DLL_GetIthElement(linked_list_t list, int index)
 int DLL_GetIthElement(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
-	return this->GetIndex(index)->GetData();
+	return this->GetIndex(index)->data;
 }
 
 /*********************************************************************
@@ -611,7 +611,7 @@ T DLL_ExtractIndex(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
 	item_t * toRemove = this->GetIndex(index);
-	T returnVal = toRemove->GetData();
+	T returnVal = toRemove->data;
 	this->RemoveNode(toRemove);
 	delete toRemove;
 	return returnVal;
@@ -626,7 +626,7 @@ T DLL_Extract(linked_list_t list, int searchTerm)
 {
 	list_t * this = (*list_t)list; 
 	item_t * temp = this->FindData(searchTerm);
-	T returnVal = temp->GetData();
+	T returnVal = temp->data;
 	this->RemoveNode(temp);
 	delete temp;
 	return returnVal;
