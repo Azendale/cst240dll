@@ -55,3 +55,5 @@ int Remove_From_Beginning(linked_list_t list, int* data);
 //    data: pointer to location to store data of removed item
 //          if data is NULL, data is not returned
 int Remove_From_End(linked_list_t list, int* data);
+
+int Count(linked_list_t);

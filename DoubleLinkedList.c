@@ -53,6 +53,8 @@ int Remove_From_Beginning(linked_list_t list, int* data);
 //          if data is NULL, data is not returned
 int Remove_From_End(linked_list_t list, int* data);
 
+int Count(linked_list_t);
+
 // Create and initialize a list. 
 // Return pointer to list. Return NULL on failure.
 linked_list_t* Init_List()
@@ -71,24 +73,24 @@ linked_list_t* Init_List()
 *  pointed at two adjacent "nodes" (including the head/tail pointers,
 *  where appropriate) in the list.
 *********************************************************************/
-template<typename T>
-void DoubleLinkedList<T>::RemoveNode(Node<T> * toRemove)
+int DoubleLinkedList<T>::RemoveNode(linked_list_t list, item_t * toRemove)
 {
-	if (toRemove->GetPrevP() == NULL)
+	list_t * this = (*list_t)list; 
+	if (toRemove->prev == NULL)
 	{
-		m_head = toRemove->GetNextP();
+		m_head = toRemove->next;
 	}
 	else
 	{
-		toRemove->GetPrevP()->SetNextP(toRemove->GetNextP());
+		toRemove->prev->next = toRemove->next);
 	}
-	if (toRemove->GetNextP() == NULL)
+	if (toRemove->next == NULL)
 	{
-		m_tail = toRemove->GetPrevP();
+		m_tail = toRemove->prev;
 	}
 	else
 	{
-		toRemove->GetNextP()->SetPrevP(toRemove->GetPrevP());
+		toRemove->next->prev = toRemove->prev);
 	}
 }
 
@@ -102,25 +104,26 @@ void DoubleLinkedList<T>::RemoveNode(Node<T> * toRemove)
 *  pointed at two adjacent nodes in the list.
 *********************************************************************/
 template<typename T>
-void DoubleLinkedList<T>::wedgeNode(Node<T> * newItem)
+void DoubleLinkedList<T>::wedgeNode(item_t * newItem)
 {
+	list_t * this = (*list_t)list; 
 	// if true, @ end of list, update tail pointer
-	if (newItem->GetNextP() == NULL) 
+	if (newItem->next == NULL) 
 	{
 		m_tail = newItem;
 	}
 	else
 	{
-		newItem->GetNextP()->SetPrevP(newItem);
+		newItem->next->prev = newItem);
 	}
 	// if true, @ start of list, update head pointer
-	if (newItem->GetPrevP() == NULL)
+	if (newItem->prev == NULL)
 	{
 		m_head = newItem;
 	}
 	else
 	{
-		newItem->GetPrevP()->SetNextP(newItem);
+		newItem->prev->next = newItem);
 	}
 }
 
@@ -131,13 +134,14 @@ void DoubleLinkedList<T>::wedgeNode(Node<T> * newItem)
 template<typename T>
 void DoubleLinkedList<T>::Purge()
 {
-	Node<T> * tempHead = m_head;
+	list_t * this = (*list_t)list; 
+	item_t * tempHead = m_head;
 	m_head = NULL;
 	m_tail = NULL;
 
 	while (tempHead != NULL)
 	{
-		Node<T> * next = tempHead->GetNextP();
+		item_t * next = tempHead->next;
 		delete tempHead;
 		tempHead = next;
 	}
@@ -146,16 +150,16 @@ void DoubleLinkedList<T>::Purge()
 /*********************************************************************
 * Purpose: Determine if list is empty or not. If so, return true.
 ********************************************************************/
-template<typename T>
-bool DoubleLinkedList<T>::isEmpty() const
+int DoubleLinkedList<T>::isEmpty(linked_list_t l) const
 {
+	list_t * this = (*list_t)list; 
 	if (m_head == NULL || m_tail == NULL)
 	{
-		return true;
+		return 1;
 	}
 	else
 	{
-		return false;
+		return 0;
 	}
 }
 
@@ -165,16 +169,16 @@ bool DoubleLinkedList<T>::isEmpty() const
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
 template<typename T>
-Node<T> * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) const
+item_t * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) const
 {
-	Node<T> * temp = NULL;
+	item_t * temp = NULL;
 	if (backward)
 	{
 		temp = m_tail;
 		// Using short-circuit logic here to avoid NULL dereference
 		while (temp != NULL && temp->GetData() != searchTerm)
 		{
-			temp = temp->GetPrevP();
+			temp = temp->prev;
 		}
 	}
 	else
@@ -182,7 +186,7 @@ Node<T> * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) con
 		temp = m_head;
 		while (temp != NULL && temp->GetData() != searchTerm)
 		{
-			temp = temp->GetNextP();
+			temp = temp->next;
 		}
 	}
 	if (NULL == temp)
@@ -198,7 +202,7 @@ Node<T> * DoubleLinkedList<T>::FindData(const T & searchTerm, bool backward) con
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
 template<typename T>
-Node<T> * DoubleLinkedList<T>::GetIndex(int index) const
+item_t * DoubleLinkedList<T>::GetIndex(int index) const
 {
 	if (m_head == NULL || m_tail == NULL)
 	{
@@ -208,13 +212,13 @@ Node<T> * DoubleLinkedList<T>::GetIndex(int index) const
 	{
 		throw "Negative index.";
 	}
-	Node<T> * temp = m_head;
+	item_t * temp = m_head;
 	int position = 0;
 	while (position < index)
 	{
-		if (temp->GetNextP() != NULL)
+		if (temp->next != NULL)
 		{
-			temp = temp->GetNextP();
+			temp = temp->next;
 			++position;
 		}
 		else
@@ -255,13 +259,13 @@ const DoubleLinkedList<T> & DoubleLinkedList<T>::operator= (const DoubleLinkedLi
 		}
 		else
 		{
-			m_head = new Node<T>(*(rhs.m_head));
-			Node<T> * holder = m_head;
-			while (holder->GetNextP() != NULL)
+			m_head = new item_t(*(rhs.m_head));
+			item_t * holder = m_head;
+			while (holder->next != NULL)
 			{
-				holder->SetNextP(new Node<T>(*(holder->GetNextP())));
-				holder->GetNextP()->SetPrevP(holder);
-				holder = holder->GetNextP();
+				holder->next = new item_t(*(holder->next)));
+				holder->next->prev = holder);
+				holder = holder->next;
 			}
 			m_tail = holder;
 		}
@@ -282,7 +286,7 @@ int Delete_List(linked_list_t list)
 
 	while (tempHead != NULL)
 	{
-		Node<T> * next = tempHead->GetNextP();
+		item_t * next = tempHead->next;
 		delete tempHead;
 		tempHead = next;
 	}
@@ -305,8 +309,8 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 template<typename T>
 void DoubleLinkedList<T>::InsertAfter(const T & source, const T & searchTerm)
 {
-	Node<T> * posReference = this->FindData(searchTerm, true);
-	Node<T> * newItem = new Node<T>(posReference, posReference->GetNextP(), source);
+	item_t * posReference = this->FindData(searchTerm, true);
+	item_t * newItem = new item_t(posReference, posReference->next, source);
 	this->wedgeNode(newItem);
 }
 
@@ -317,8 +321,8 @@ void DoubleLinkedList<T>::InsertAfter(const T & source, const T & searchTerm)
 template<typename T>
 void DoubleLinkedList<T>::InsertBefore(const T & source, const T & searchTerm)
 {
-	Node<T> * posReference = this->FindData(searchTerm);
-	Node<T> * newItem = new Node<T>(posReference->GetPrevP(), posReference, source);
+	item_t * posReference = this->FindData(searchTerm);
+	item_t * newItem = new item_t(posReference->prev, posReference, source);
 	this->wedgeNode(newItem);
 }
 
@@ -329,16 +333,16 @@ void DoubleLinkedList<T>::InsertBefore(const T & source, const T & searchTerm)
 template<typename T>
 void DoubleLinkedList<T>::InsertAfterIndex(const T & source, int index)
 {
-	Node<T> * newItem = NULL;
+	item_t * newItem = NULL;
 
 	if (m_head == NULL && m_tail == NULL && -1 == index)
 	{
-		newItem = new Node<T>(NULL, NULL, source);
+		newItem = new item_t(NULL, NULL, source);
 	}
 	else
 	{
-		Node<T> * currentIndex = this->GetIndex(index);
-		newItem = new Node<T>(currentIndex, currentIndex->GetNextP(), source);
+		item_t * currentIndex = this->GetIndex(index);
+		newItem = new item_t(currentIndex, currentIndex->next, source);
 	}
 
 	this->wedgeNode(newItem);
@@ -351,16 +355,16 @@ void DoubleLinkedList<T>::InsertAfterIndex(const T & source, int index)
 template<typename T>
 void DoubleLinkedList<T>::InsertBeforeIndex(const T & source, int index)
 {
-	Node<T> * newItem = NULL;
+	item_t * newItem = NULL;
 
 	if (m_head == NULL && m_tail == NULL && 0 == index)
 	{
-		newItem = new Node<T>(NULL, NULL, source);
+		newItem = new item_t(NULL, NULL, source);
 	}
 	else
 	{
-		Node<T> * currentIndex = this->GetIndex(index);
-		newItem = new Node<T>(currentIndex->GetPrevP(), currentIndex, source);
+		item_t * currentIndex = this->GetIndex(index);
+		newItem = new item_t(currentIndex->prev, currentIndex, source);
 	}
 	
 	this->wedgeNode(newItem);
@@ -373,15 +377,15 @@ void DoubleLinkedList<T>::InsertBeforeIndex(const T & source, int index)
 template<typename T>
 void DoubleLinkedList<T>::Prepend(const T & source)
 {
-	Node<T> * newNode = new Node<T>((Node<T> *)NULL, m_head, source);
+	item_t * newNode = new item_t((item_t *)NULL, m_head, source);
 	/* Data structure inconsistent after this */
-	if (newNode->GetNextP() == NULL)
+	if (newNode->next == NULL)
 	{
 		m_tail = newNode;
 	}
 	else
 	{
-		newNode->GetNextP()->SetPrevP(newNode);
+		newNode->next->prev = newNode);
 	}
 	m_head = newNode;
 	/* Data structure consistent again */
@@ -394,15 +398,15 @@ void DoubleLinkedList<T>::Prepend(const T & source)
 template<typename T>
 void DoubleLinkedList<T>::Append(const T & source)
 {
-	Node<T> * newNode = new Node<T>(m_tail, (Node<T> *)NULL, source);
+	item_t * newNode = new item_t(m_tail, (item_t *)NULL, source);
 	/* Data structure inconsistent after this */
-	if (newNode->GetPrevP() == NULL)
+	if (newNode->prev == NULL)
 	{
 		m_head = newNode;
 	}
 	else
 	{
-		newNode->GetPrevP()->SetNextP(newNode);
+		newNode->prev->next = newNode);
 	}
 	m_tail = newNode;
 	/* Data structure consistent again */
@@ -423,10 +427,10 @@ T DoubleLinkedList<T>::PopFront()
 	else
 	{
 		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
-		Node<T> * toRemove = m_head;
+		item_t * toRemove = m_head;
 		T temp = toRemove->GetData();
 		// Go to the next node, the one that will be the in front when we are done
-		Node<T> * nextFront = toRemove->GetNextP();
+		item_t * nextFront = toRemove->next;
 		/* Data structure inconsistent after this */
 
 		// If next front is null, then we just took out the last item in the list
@@ -439,7 +443,7 @@ T DoubleLinkedList<T>::PopFront()
 			// If its not null, then there is still at least one thing, and we need to update it's 
 			// previous pointer to stop pointing at the old object and set it to NULL to say it's
 			// at the start of the list
-			nextFront->SetPrevP(NULL);
+			nextFront->prev = NULL);
 		}
 		m_head = nextFront;
 		/* Data structure consistent again */
@@ -463,10 +467,10 @@ T DoubleLinkedList<T>::PopBack()
 	else
 	{
 		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
-		Node<T> * toRemove = m_tail;
+		item_t * toRemove = m_tail;
 		T temp = toRemove->GetData();
 		// Go to the next node, the one that will be the in front when we are done
-		Node<T> * nextBack = toRemove->GetPrevP();
+		item_t * nextBack = toRemove->prev;
 		/* Data structure inconsistent after this */
 		// If next front is null, then we just took out the last item in the list
 		if (nextBack == NULL)
@@ -478,7 +482,7 @@ T DoubleLinkedList<T>::PopBack()
 			// If its not null, then there is still at least one thing, and we need to update it's 
 			// previous pointer to stop pointing at the old object and set it to NULL to say it's
 			// at the start of the list
-			nextBack->SetNextP(NULL);
+			nextBack->next = NULL);
 		}
 		m_tail = nextBack;
 		/* Data structure consistent again */
@@ -612,7 +616,7 @@ const T & DoubleLinkedList<T>::operator[](int index) const
 template<typename T>
 T DoubleLinkedList<T>::ExtractIndex(int index)
 {
-	Node<T> * toRemove = this->GetIndex(index);
+	item_t * toRemove = this->GetIndex(index);
 	T returnVal = toRemove->GetData();
 	this->RemoveNode(toRemove);
 	delete toRemove;
@@ -627,7 +631,7 @@ T DoubleLinkedList<T>::ExtractIndex(int index)
 template<typename T>
 T DoubleLinkedList<T>::Extract(const T & searchTerm)
 {
-	Node<T> * temp = this->FindData(searchTerm);
+	item_t * temp = this->FindData(searchTerm);
 	T returnVal = temp->GetData();
 	this->RemoveNode(temp);
 	delete temp;
@@ -641,11 +645,11 @@ template <typename T>
 int DoubleLinkedList<T>::Size() const
 {
 	int size = 0;
-	Node<T> * currentPlace = m_head;
+	item_t * currentPlace = m_head;
 	while (currentPlace != NULL)
 	{
 		++size;
-		currentPlace = currentPlace->GetNextP();
+		currentPlace = currentPlace->next;
 	}
 
 	return size;
