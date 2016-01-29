@@ -88,9 +88,18 @@ int main(int argc, char ** argv)
     // If we got this far without calling exit, everything seems good.
     printf("Stack test of list worked for functions operating at the end.\n");
     
-    for (int iterator = 0; iterator < 10; ++iterator)
+    if (!Empty(mylist))
     {
-        Insert_At_End(mylist, iterator);
+        printf("Expected stack to be empty, but it is not.\n");
+        exit(1);
+    }
+    
+    int data = 0;
+    for (int iterator = 0; iterator < 20; ++iterator)
+    {
+        data = rand() % 1000;
+        printf("Adding %d to the list.\n", data);
+        Insert_in_order(mylist, data);
     }
     
     Traverse(mylist, intPrinter);
