@@ -93,7 +93,7 @@ void DLL_wedgeNode(linked_list_t list, item_t * newItem)
 	}
 	else
 	{
-		newItem->next->prev = newItem);
+		newItem->next->prev = newItem;
 	}
 	// if true, @ start of list, update head pointer
 	if (newItem->prev == NULL)
@@ -102,7 +102,7 @@ void DLL_wedgeNode(linked_list_t list, item_t * newItem)
 	}
 	else
 	{
-		newItem->prev->next = newItem);
+		newItem->prev->next = newItem;
 	}
 }
 
@@ -128,7 +128,7 @@ void DLL_Purge(linked_list_t list)
 */
 // Return true (non-zero) if the list is empty
 //    list: list to examine
-int Empty(linked_list_t list);
+int Empty(linked_list_t list)
 {
 	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
@@ -225,6 +225,7 @@ int Delete_List(linked_list_t list)
 		free(tempHead);
 		tempHead = next;
 	}
+	return 0;
 }
 
 /*********************************************************************
@@ -309,7 +310,7 @@ void DLL_InsertBeforeIndex(linked_list_t list, int source, int index)
 // Params:
 //    list: list to add item to
 //    data: Data to be added to the list
-int Insert_At_Beginning(linked_list_t list, int data);
+int Insert_At_Beginning(linked_list_t list, int data)
 {
 	list_t * this = (list_t *)list; 
 	item_t * newNode = NewItem_t((item_t *)NULL, this->head, data);
@@ -320,7 +321,7 @@ int Insert_At_Beginning(linked_list_t list, int data);
 	}
 	else
 	{
-		newNode->next->prev = newNode);
+		newNode->next->prev = newNode;
 	}
 	this->head = newNode;
 	this->count++;
@@ -334,7 +335,7 @@ int Insert_At_Beginning(linked_list_t list, int data);
 // Params:
 //    list: list to add item to
 //    data: Data to be added to the list
-int Insert_At_End(linked_list_t list, int data);
+int Insert_At_End(linked_list_t list, int data)
 {
 	list_t * this = (list_t *)list; 
 	item_t * newNode = NewItem_t(this->tail, (item_t *)NULL, data);
@@ -345,7 +346,7 @@ int Insert_At_End(linked_list_t list, int data);
 	}
 	else
 	{
-		newNode->prev->next = newNode);
+		newNode->prev->next = newNode;
 	}
 	this->tail = newNode;
 	this->count++;
@@ -360,7 +361,7 @@ int Insert_At_End(linked_list_t list, int data);
 //    list: list to remove item from
 //    data: pointer to location to store data of removed item
 //          if data is NULL, data is not returned
-int Remove_From_Beginning(linked_list_t list, int* data);
+int Remove_From_Beginning(linked_list_t list, int* data)
 {
 	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
@@ -385,12 +386,13 @@ int Remove_From_Beginning(linked_list_t list, int* data);
 			// If its not null, then there is still at least one thing, and we need to update it's 
 			// previous pointer to stop pointing at the old object and set it to NULL to say it's
 			// at the start of the list
-			nextFront->prev = NULL);
+			nextFront->prev = NULL;
 		}
 		this->head = nextFront;
 		/* Data structure consistent again */
 		free(toRemove);
 		this->count--;
+		return 0;
 	}
 }
 
@@ -401,7 +403,7 @@ int Remove_From_Beginning(linked_list_t list, int* data);
 //    list: list to remove item from
 //    data: pointer to location to store data of removed item
 //          if data is NULL, data is not returned
-int Remove_From_End(linked_list_t list, int* data);
+int Remove_From_End(linked_list_t list, int* data)
 {
 	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
@@ -425,7 +427,7 @@ int Remove_From_End(linked_list_t list, int* data);
 			// If its not null, then there is still at least one thing, and we need to update it's 
 			// previous pointer to stop pointing at the old object and set it to NULL to say it's
 			// at the start of the list
-			nextBack->next = NULL);
+			nextBack->next = NULL;
 		}
 		this->tail = nextBack;
 		/* Data structure consistent again */
