@@ -102,7 +102,7 @@ void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 * Purpose: Remove all elements of the list, leaving an empty list.
 * Exit: List empty, no dynamically allocated memory left.
 ********************************************************************/
-void DLL_Purge(linked_list_t list, linked_list_t list)
+void DLL_Purge(linked_list_t list)
 {
 	list_t * this = (*list_t)list; 
 	item_t * tempHead = this->head;
@@ -112,7 +112,7 @@ void DLL_Purge(linked_list_t list, linked_list_t list)
 	while (tempHead != NULL)
 	{
 		item_t * next = tempHead->next;
-		delete tempHead;
+		free(tempHead);
 		tempHead = next;
 	}
 }
@@ -120,12 +120,8 @@ void DLL_Purge(linked_list_t list, linked_list_t list)
 // Return true (non-zero) if the list is empty
 //    list: list to examine
 int Empty(linked_list_t list);
-/*********************************************************************
-* Purpose: Determine if list is empty or not. If so, return true.
-********************************************************************/
-int DLL_isEmpty(linked_list_t list, linked_list_t l) const
 {
-	list_t * this = (*list_t)l; 
+	list_t * this = (*list_t)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		return 1;
