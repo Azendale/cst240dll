@@ -137,7 +137,7 @@ int Empty(linked_list_t list);
 * Entry: At least one item matching searchTerm in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
-item_t * DLL_FindData(linked_list_t list, int searchTerm, bool backward) const
+item_t * DLL_FindData(linked_list_t list, int searchTerm, bool backward)
 {
 	list_t * this = (*list_t)list; 
 	item_t * temp = NULL;
@@ -170,7 +170,7 @@ item_t * DLL_FindData(linked_list_t list, int searchTerm, bool backward) const
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
-item_t * DLL_GetIndex(linked_list_t list, int index) const
+item_t * DLL_GetIndex(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
 	if (this->head == NULL || this->tail == NULL)
@@ -492,7 +492,7 @@ T DLL_PopBack(linked_list_t list, )
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-int DLL_First(linked_list_t list, ) const
+int DLL_First(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
 	if (this->head == NULL || this->tail == NULL)
@@ -510,7 +510,7 @@ int DLL_First(linked_list_t list, ) const
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-int DLL_Last(linked_list_t list, ) const
+int DLL_Last(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
 	if (this->head == NULL || this->tail == NULL)
@@ -575,7 +575,7 @@ T & DLL_GetIthElement(linked_list_t list, int index)
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-int DLL_GetIthElement(linked_list_t list, int index) const
+int DLL_GetIthElement(linked_list_t list, int index)
 {
 	list_t * this = (*list_t)list; 
 	return this->GetIndex(index)->GetData();
@@ -596,7 +596,7 @@ T & DoubleLinkedList<T>::operator[](int index)
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-int DoubleLinkedList<T>::operator[](int index) const
+int DoubleLinkedList<T>::operator[](int index)
 {
 	return GetIthElement(index);
 }
@@ -636,7 +636,7 @@ T DLL_Extract(linked_list_t list, int searchTerm)
 * Purpose: return the number of items in the list.
 *********************************************************************/
 template <typename T>
-int DLL_Size(linked_list_t list, ) const
+int DLL_Size(linked_list_t list, )
 {
 	list_t * this = (*list_t)list; 
 	int size = 0;
