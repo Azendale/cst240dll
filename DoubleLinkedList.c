@@ -78,7 +78,7 @@ int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 	list_t * this = (*list_t)list; 
 	if (toRemove->prev == NULL)
 	{
-		m_head = toRemove->next;
+		head = toRemove->next;
 	}
 	else
 	{
@@ -86,7 +86,7 @@ int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 	}
 	if (toRemove->next == NULL)
 	{
-		m_tail = toRemove->prev;
+		tail = toRemove->prev;
 	}
 	else
 	{
@@ -98,7 +98,7 @@ int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 /*********************************************************************
 * Purpose: Take a node object that has its pointers set properly to be
 *  between nodes (including at the end of the list), and update the 
-*  "nodes" (including m_head or m_tail if needed) on either side so it
+*  "nodes" (including head or tail if needed) on either side so it
 *   is between them.
 *  Entry: Node pointed to by newItem has the next and previous pointers
 *  pointed at two adjacent nodes in the list.
@@ -109,7 +109,7 @@ void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 	// if true, @ end of list, update tail pointer
 	if (newItem->next == NULL) 
 	{
-		m_tail = newItem;
+		tail = newItem;
 	}
 	else
 	{
@@ -118,7 +118,7 @@ void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 	// if true, @ start of list, update head pointer
 	if (newItem->prev == NULL)
 	{
-		m_head = newItem;
+		head = newItem;
 	}
 	else
 	{
@@ -133,9 +133,9 @@ void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 void DLL_Purge(linked_list_t list, linked_list_t list)
 {
 	list_t * this = (*list_t)list; 
-	item_t * tempHead = m_head;
-	m_head = NULL;
-	m_tail = NULL;
+	item_t * tempHead = head;
+	head = NULL;
+	tail = NULL;
 
 	while (tempHead != NULL)
 	{
@@ -151,7 +151,7 @@ void DLL_Purge(linked_list_t list, linked_list_t list)
 int DLL_isEmpty(linked_list_t list, linked_list_t l) const
 {
 	list_t * this = (*list_t)l; 
-	if (m_head == NULL || m_tail == NULL)
+	if (head == NULL || tail == NULL)
 	{
 		return 1;
 	}
@@ -171,7 +171,7 @@ item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) c
 	item_t * temp = NULL;
 	if (backward)
 	{
-		temp = m_tail;
+		temp = tail;
 		// Using short-circuit logic here to avoid NULL dereference
 		while (temp != NULL && temp->GetData() != searchTerm)
 		{
@@ -180,7 +180,7 @@ item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) c
 	}
 	else
 	{
-		temp = m_head;
+		temp = head;
 		while (temp != NULL && temp->GetData() != searchTerm)
 		{
 			temp = temp->next;
@@ -200,7 +200,7 @@ item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) c
 ********************************************************************/
 item_t * DLL_GetIndex(linked_list_t list, int index) const
 {
-	if (m_head == NULL || m_tail == NULL)
+	if (head == NULL || tail == NULL)
 	{
 		throw "Empty list.";
 	}
@@ -208,7 +208,7 @@ item_t * DLL_GetIndex(linked_list_t list, int index) const
 	{
 		throw "Negative index.";
 	}
-	item_t * temp = m_head;
+	item_t * temp = head;
 	int position = 0;
 	while (position < index)
 	{
@@ -232,7 +232,7 @@ item_t * DLL_GetIndex(linked_list_t list, int index) const
 * Entry: source in a valid state.
 * Exit: This object created as a copy of source.
 ********************************************************************/
-DLL_DoubleLinkedList(linked_list_t list, const DoubleLinkedList & source) : m_head(NULL), m_tail(NULL)
+DLL_DoubleLinkedList(linked_list_t list, const DoubleLinkedList & source) : head(NULL), tail(NULL)
 {
 	*this = source;
 }
@@ -247,21 +247,21 @@ const DoubleLinkedList<T> & DoubleLinkedList<T>::operator= (const DoubleLinkedLi
 	if (this != &rhs)
 	{
 		Purge();
-		if (rhs.m_head == NULL || rhs.m_tail == NULL)
+		if (rhs.head == NULL || rhs.tail == NULL)
 		{
 			// empty list -- do nothing, Purge just made this equal
 		}
 		else
 		{
-			m_head = new item_t(*(rhs.m_head));
-			item_t * holder = m_head;
+			head = new item_t(*(rhs.head));
+			item_t * holder = head;
 			while (holder->next != NULL)
 			{
 				holder->next = new item_t(*(holder->next)));
 				holder->next->prev = holder);
 				holder = holder->next;
 			}
-			m_tail = holder;
+			tail = holder;
 		}
 	}
 
@@ -275,8 +275,8 @@ int Delete_List(linked_list_t list)
 {
 	list_t * this = (*list_t)list; 
 	item_t * tempHead = this->head;
-	this->m_head = NULL;
-	this->m_tail = NULL;
+	this->head = NULL;
+	this->tail = NULL;
 
 	while (tempHead != NULL)
 	{
@@ -325,7 +325,7 @@ void DLL_InsertAfterIndex(linked_list_t list, const T & source, int index)
 {
 	item_t * newItem = NULL;
 
-	if (m_head == NULL && m_tail == NULL && -1 == index)
+	if (head == NULL && tail == NULL && -1 == index)
 	{
 		newItem = new item_t(NULL, NULL, source);
 	}
@@ -346,7 +346,7 @@ void DLL_InsertBeforeIndex(linked_list_t list, const T & source, int index)
 {
 	item_t * newItem = NULL;
 
-	if (m_head == NULL && m_tail == NULL && 0 == index)
+	if (head == NULL && tail == NULL && 0 == index)
 	{
 		newItem = new item_t(NULL, NULL, source);
 	}
@@ -365,17 +365,17 @@ void DLL_InsertBeforeIndex(linked_list_t list, const T & source, int index)
 ********************************************************************/
 void DLL_Prepend(linked_list_t list, const T & source)
 {
-	item_t * newNode = new item_t((item_t *)NULL, m_head, source);
+	item_t * newNode = new item_t((item_t *)NULL, head, source);
 	/* Data structure inconsistent after this */
 	if (newNode->next == NULL)
 	{
-		m_tail = newNode;
+		tail = newNode;
 	}
 	else
 	{
 		newNode->next->prev = newNode);
 	}
-	m_head = newNode;
+	head = newNode;
 	/* Data structure consistent again */
 }
 
@@ -385,17 +385,17 @@ void DLL_Prepend(linked_list_t list, const T & source)
 ********************************************************************/
 void DLL_Append(linked_list_t list, const T & source)
 {
-	item_t * newNode = new item_t(m_tail, (item_t *)NULL, source);
+	item_t * newNode = new item_t(tail, (item_t *)NULL, source);
 	/* Data structure inconsistent after this */
 	if (newNode->prev == NULL)
 	{
-		m_head = newNode;
+		head = newNode;
 	}
 	else
 	{
 		newNode->prev->next = newNode);
 	}
-	m_tail = newNode;
+	tail = newNode;
 	/* Data structure consistent again */
 }
 
@@ -406,14 +406,14 @@ void DLL_Append(linked_list_t list, const T & source)
 ********************************************************************/
 T DLL_PopFront(linked_list_t list, )
 {
-	if (m_head == NULL || m_tail == NULL)
+	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
 	else
 	{
 		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
-		item_t * toRemove = m_head;
+		item_t * toRemove = head;
 		T temp = toRemove->GetData();
 		// Go to the next node, the one that will be the in front when we are done
 		item_t * nextFront = toRemove->next;
@@ -422,7 +422,7 @@ T DLL_PopFront(linked_list_t list, )
 		// If next front is null, then we just took out the last item in the list
 		if (nextFront == NULL)
 		{
-			m_tail = NULL;
+			tail = NULL;
 		}
 		else
 		{
@@ -431,7 +431,7 @@ T DLL_PopFront(linked_list_t list, )
 			// at the start of the list
 			nextFront->prev = NULL);
 		}
-		m_head = nextFront;
+		head = nextFront;
 		/* Data structure consistent again */
 		delete toRemove;
 		return temp;
@@ -445,14 +445,14 @@ T DLL_PopFront(linked_list_t list, )
 ********************************************************************/
 T DLL_PopBack(linked_list_t list, )
 {
-	if (m_head == NULL || m_tail == NULL)
+	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
 	else
 	{
 		// I don't want to copy stuff 15 times here. Suggestions to minimize this would be appreciated
-		item_t * toRemove = m_tail;
+		item_t * toRemove = tail;
 		T temp = toRemove->GetData();
 		// Go to the next node, the one that will be the in front when we are done
 		item_t * nextBack = toRemove->prev;
@@ -460,7 +460,7 @@ T DLL_PopBack(linked_list_t list, )
 		// If next front is null, then we just took out the last item in the list
 		if (nextBack == NULL)
 		{
-			m_head = NULL;
+			head = NULL;
 		}
 		else
 		{
@@ -469,7 +469,7 @@ T DLL_PopBack(linked_list_t list, )
 			// at the start of the list
 			nextBack->next = NULL);
 		}
-		m_tail = nextBack;
+		tail = nextBack;
 		/* Data structure consistent again */
 		delete toRemove;
 		return temp;
@@ -483,13 +483,13 @@ T DLL_PopBack(linked_list_t list, )
 ********************************************************************/
 const T & DLL_First(linked_list_t list, ) const
 {
-	if (m_head == NULL || m_tail == NULL)
+	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
 	else
 	{
-		return m_head->GetData();
+		return head->GetData();
 	}
 }
 
@@ -500,13 +500,13 @@ const T & DLL_First(linked_list_t list, ) const
 ********************************************************************/
 const T & DLL_Last(linked_list_t list, ) const
 {
-	if (m_head == NULL || m_tail == NULL)
+	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return back";
 	}
 	else
 	{
-		return m_tail->GetData();
+		return tail->GetData();
 	}
 }
 
@@ -517,13 +517,13 @@ const T & DLL_Last(linked_list_t list, ) const
 ********************************************************************/
 T & DLL_First(linked_list_t list, )
 {
-	if (m_head == NULL || m_tail == NULL)
+	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return front";
 	}
 	else
 	{
-		return m_head->GetData();
+		return head->GetData();
 	}
 }
 
@@ -534,13 +534,13 @@ T & DLL_First(linked_list_t list, )
 ********************************************************************/
 T & DLL_Last(linked_list_t list, )
 {
-	if (m_head == NULL || m_tail == NULL)
+	if (head == NULL || tail == NULL)
 	{
 		throw "0 items in list, can't return back";
 	}
 	else
 	{
-		return m_tail->GetData();
+		return tail->GetData();
 	}
 }
 
@@ -620,7 +620,7 @@ template <typename T>
 int DLL_Size(linked_list_t list, ) const
 {
 	int size = 0;
-	item_t * currentPlace = m_head;
+	item_t * currentPlace = head;
 	while (currentPlace != NULL)
 	{
 		++size;
