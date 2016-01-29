@@ -1,8 +1,9 @@
 #include "DoubleLinkedList.h"
-
 #include <stdlib.h>
-#include <stdio.h>
+// Some function headers and structs by Phil Howard
+// Rest by Erik Andersen <erik.andersen@oit.edu>, 2016-01-28
 
+// Double Linked list Node
 typedef struct item_s
 {
     int data;
@@ -10,6 +11,7 @@ typedef struct item_s
     struct item_s *prev;
 } item_t;
 
+// Double linked list
 typedef struct list_s
 {
 	item_t * head;
@@ -17,6 +19,8 @@ typedef struct list_s
 	int count;
 } list_t;
 
+// Creates a new node. Safe to free a pointer to this without a deconstructor
+// function as all pointers in this are managed by the linked list
 item_t * NewItem_t(item_t * p, item_t * n, int d)
 {
 	item_t * this = malloc(sizeof(item_t));
@@ -26,6 +30,7 @@ item_t * NewItem_t(item_t * p, item_t * n, int d)
 	return this;
 }
 
+// Return the number of nodes in the linked list
 int Count(linked_list_t list)
 {
 	list_t * this = (list_t *)list; 
@@ -73,6 +78,7 @@ void DLL_wedgeNode(linked_list_t list, item_t * newItem)
 	{
 		newItem->prev->next = newItem;
 	}
+	++(this->count);
 }
 
 // Return true (non-zero) if the list is empty
@@ -194,9 +200,9 @@ int Remove_From_Beginning(linked_list_t list, int* data)
 			nextFront->prev = NULL;
 		}
 		this->head = nextFront;
+		--(this->count); // Parenthesis not required, but helpful for reading
 		/* Data structure consistent again */
 		free(toRemove);
-		--(this->count); // Parenthesis not required, but helpful for reading
 		return 0;
 	}
 }
@@ -235,9 +241,9 @@ int Remove_From_End(linked_list_t list, int* data)
 			nextBack->next = NULL;
 		}
 		this->tail = nextBack;
+		--(this->count); // Parenthesis not required, prefix decrement is lower precedence than ->
 		/* Data structure consistent again */
 		free(toRemove);
-		--(this->count); // Parenthesis not required, prefix decrement is lower precedence than ->
 		return 0;
 	}
 }

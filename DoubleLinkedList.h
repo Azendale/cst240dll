@@ -1,5 +1,4 @@
 #pragma once
-#include "Node.h"
 //*************************************************
 // linked list definition
 //
@@ -56,4 +55,5 @@ int Remove_From_Beginning(linked_list_t list, int* data);
 //          if data is NULL, data is not returned
 int Remove_From_End(linked_list_t list, int* data);
 
+// Return the number of nodes in the linked list
 int Count(linked_list_t);
