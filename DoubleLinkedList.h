@@ -7,6 +7,7 @@
 //
 // Author: Philip Howard
 // Date:   2015/12/30
+// Two lines added at the end of the file by Erik Andersen <erik.andersen@oit.edu> on 2016-01-28
 //
 
 // Opaque type for lists

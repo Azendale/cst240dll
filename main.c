@@ -1,5 +1,8 @@
 #include "DoubleLinkedList.h"
 
+// File to test double linked list.
+// Erik Andersen <erik.andersen@oit.edu> on 2016-01-28
+
 #include <stdio.h>
 #include <stdlib.h>
 
