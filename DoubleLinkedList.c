@@ -45,37 +45,6 @@ linked_list_t* Init_List()
 
 
 /*********************************************************************
-* Purpose: Remove a node (with still valid next and previous pointers
-*  for its position in the list) and remove it from the list. Does NOT
-*  delete the object pointed to by toRemove.
-* Entry: Node pointed to by toRemove has the next and previous pointers
-*  pointed at two adjacent "nodes" (including the head/tail pointers,
-*  where appropriate) in the list.
-*********************************************************************/
-/*
-int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
-{
-	list_t * this = (list_t *)list; 
-	if (toRemove->prev == NULL)
-	{
-		this->head = toRemove->next;
-	}
-	else
-	{
-		toRemove->prev->next = toRemove->next);
-	}
-	if (toRemove->next == NULL)
-	{
-		this->tail = toRemove->prev;
-	}
-	else
-	{
-		toRemove->next->prev = toRemove->prev);
-	}
-}
-*/
-
-/*********************************************************************
 * Purpose: Take a node object that has its pointers set properly to be
 *  between nodes (including at the end of the list), and update the 
 *  "nodes" (including head or tail if needed) on either side so it
@@ -106,26 +75,6 @@ void DLL_wedgeNode(linked_list_t list, item_t * newItem)
 	}
 }
 
-/*********************************************************************
-* Purpose: Remove all elements of the list, leaving an empty list.
-* Exit: List empty, no dynamically allocated memory left.
-********************************************************************/
-/*
-void DLL_Purge(linked_list_t list)
-{
-	list_t * this = (list_t *)list; 
-	item_t * tempHead = this->head;
-	this->head = NULL;
-	this->tail = NULL;
-
-	while (tempHead != NULL)
-	{
-		item_t * next = tempHead->next;
-		free(tempHead);
-		tempHead = next;
-	}
-}
-*/
 // Return true (non-zero) if the list is empty
 //    list: list to examine
 int Empty(linked_list_t list)
@@ -140,74 +89,6 @@ int Empty(linked_list_t list)
 		return 0;
 	}
 }
-
-/*********************************************************************
-* Purpose: Return a pointer to the first or last item matching searchTerm.
-* Entry: At least one item matching searchTerm in the list.
-* Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
-********************************************************************/
-/*
-item_t * DLL_FindData(linked_list_t list, int searchTerm, int backward)
-{
-	list_t * this = (list_t *)list; 
-	item_t * temp = NULL;
-	if (backward)
-	{
-		temp = this->tail;
-		// Using short-circuit logic here to avoid NULL dereference
-		while (temp != NULL && temp->data != searchTerm)
-		{
-			temp = temp->prev;
-		}
-	}
-	else
-	{
-		temp = this->head;
-		while (temp != NULL && temp->data != searchTerm)
-		{
-			temp = temp->next;
-		}
-	}
-	return temp;
-}
-*/
-
-/*********************************************************************
-* Purpose: Return a pointer to the Ith element
-* Entry: At least index+1 items in the list.
-* Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
-********************************************************************/
-/*
-item_t * DLL_GetIndex(linked_list_t list, int index)
-{
-	list_t * this = (list_t *)list; 
-	if (this->head == NULL || this->tail == NULL)
-	{
-		throw "Empty list.";
-	}
-	if (index < 0)
-	{
-		throw "Negative index.";
-	}
-	item_t * temp = this->head;
-	int position = 0;
-	while (position < index)
-	{
-		if (temp->next != NULL)
-		{
-			temp = temp->next;
-			++position;
-		}
-		else
-		{
-			throw "Given index beyond the end of the list";
-		}
-	}
-	// Ok, now we should be wound forward to the one we want.
-	return temp;
-}
-*/
-
 
 // Delete a list are free all memory used by the list
 // It is erroneous to use the list pointer after caling this routine.
@@ -225,6 +106,7 @@ int Delete_List(linked_list_t list)
 		free(tempHead);
 		tempHead = next;
 	}
+	this->count = 0;
 	return 0;
 }
 
@@ -247,7 +129,7 @@ int Insert_At_Beginning(linked_list_t list, int data)
 		newNode->next->prev = newNode;
 	}
 	this->head = newNode;
-	this->count++;
+	++(this->count); // Parenthesis not required, but more readable
 	/* Data structure consistent again */
 	return 0;
 }
@@ -272,7 +154,7 @@ int Insert_At_End(linked_list_t list, int data)
 		newNode->prev->next = newNode;
 	}
 	this->tail = newNode;
-	this->count++;
+	++(this->count); // Parenthesis not required, but more readable
 	/* Data structure consistent again */
 	return 0;
 }
@@ -314,7 +196,7 @@ int Remove_From_Beginning(linked_list_t list, int* data)
 		this->head = nextFront;
 		/* Data structure consistent again */
 		free(toRemove);
-		this->count--;
+		--(this->count); // Parenthesis not required, but helpful for reading
 		return 0;
 	}
 }
@@ -355,61 +237,7 @@ int Remove_From_End(linked_list_t list, int* data)
 		this->tail = nextBack;
 		/* Data structure consistent again */
 		free(toRemove);
+		--(this->count); // Parenthesis not required, prefix decrement is lower precedence than ->
 		return 0;
 	}
 }
-
-
-
-/*********************************************************************
-* Purpose: Remove, and return, an element at index. Thows an exception if out of range.
-* Entry: At least index+1 items in the list.
-* Exit: Item removed from list, with item(s) previously on either side linked to each other
-********************************************************************/
-/*
-T DLL_ExtractIndex(linked_list_t list, int index)
-{
-	list_t * this = (list_t *)list; 
-	item_t * toRemove = this->GetIndex(index);
-	T returnVal = toRemove->data;
-	this->RemoveNode(toRemove);
-	delete toRemove;
-	return returnVal;
-}
-*/
-
-/*********************************************************************
-* Purpose: Remove, and return, an element by searching by value. Thows an exception if that value is not found.
-* Entry: At least one item matching searchTerm in the list.
-* Exit: Item removed from list, with item(s) previously on either side linked to each other
-********************************************************************/
-/*
-T DLL_Extract(linked_list_t list, int searchTerm)
-{
-	list_t * this = (list_t *)list; 
-	item_t * temp = this->FindData(searchTerm);
-	T returnVal = temp->data;
-	this->RemoveNode(temp);
-	delete temp;
-	return returnVal;
-}
-*/
-
-/*********************************************************************
-* Purpose: return the number of items in the list.
-*********************************************************************/
-/*
-int DLL_SizeCount(linked_list_t list)
-{
-	list_t * this = (list_t *)list; 
-	int size = 0;
-	item_t * currentPlace = this->head;
-	while (currentPlace != NULL)
-	{
-		++size;
-		currentPlace = currentPlace->next;
-	}
-
-	return size;
-}
-*/
