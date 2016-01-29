@@ -283,7 +283,7 @@ int Insert_in_order(linked_list_t list, int value)
     
     // Find where to put it, stopping when we find something larger or the end 
     // of the list
-    while (NULL != travel && value < travel->data)
+    while (NULL != travel && value > travel->data)
     {
        travel = travel->next; 
     }
