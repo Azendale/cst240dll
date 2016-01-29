@@ -6,6 +6,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void intPrinter(int intToPrint)
+{
+    printf("%d\n", intToPrint);
+}
+
 int main(int argc, char ** argv)
 {
     linked_list_t * mylist = Init_List();
@@ -82,6 +87,13 @@ int main(int argc, char ** argv)
     }
     // If we got this far without calling exit, everything seems good.
     printf("Stack test of list worked for functions operating at the end.\n");
+    
+    for (int iterator = 0; iterator < 10; ++iterator)
+    {
+        Insert_At_End(mylist, iterator);
+    }
+    
+    Traverse(mylist, intPrinter);
     
     Delete_List(mylist);
     free(mylist);

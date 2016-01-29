@@ -58,3 +58,6 @@ int Remove_From_End(linked_list_t list, int* data);
 
 // Return the number of nodes in the linked list
 int Count(linked_list_t);
+
+// Traverse the list, calling action on each int
+int Traverse(linked_list_t list, void (*action)(int data));

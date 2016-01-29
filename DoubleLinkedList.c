@@ -247,3 +247,18 @@ int Remove_From_End(linked_list_t list, int* data)
         return 0;
     }
 }
+
+// Traverse our list, calling the callback function action
+int Traverse(linked_list_t list, void (*action)(int data))
+{
+    list_t * this = (list_t *)list;
+    item_t * travel = this->head;
+    while (travel != NULL)
+    {
+        action(travel->data);
+        travel = travel->next;
+    }
+    // Didn't specify what to return, so I'll just return 0 since that means
+    // success everywhere else
+    return 0;
+}
