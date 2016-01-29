@@ -1,4 +1,4 @@
-COPTS = -g -O0 -c
+COPTS = -g -O0 -c -Wall
 OBS = DoubleLinkedList.o \
 	main.o \
 
@@ -7,10 +7,10 @@ all: testprogram
 testprogram: $(OBS)
 	gcc $(OBS) -o testprogram
 
-DoubleLinkedList.o: DoubleLinkedList.c DoubleLinkedList.h
+DoubleLinkedList.o: DoubleLinkedList.c DoubleLinkedList.h Makefile
 	gcc $(COPTS) DoubleLinkedList.c
 
-main.o: main.c
+main.o: main.c Makefile
 	gcc $(COPTS) main.c
 
 
