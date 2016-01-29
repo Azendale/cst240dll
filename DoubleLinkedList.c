@@ -19,41 +19,11 @@ typedef struct list_s
 } list_t;
 
 
-// Insert an item at the beginning of the list
-// Return zero on success
-// Params:
-//    list: list to add item to
-//    data: Data to be added to the list
-int Insert_At_Beginning(linked_list_t list, int data);
 
-// Insert an item at the end of the list
-// Return zero on success
-// Params:
-//    list: list to add item to
-//    data: Data to be added to the list
-int Insert_At_End(linked_list_t list, int data);
-
-// Return true (non-zero) if the list is empty
-//    list: list to examine
-int Empty(linked_list_t list);
-
-// Remove an item from the beginning of the list 
-// Return zero on success
-// Params:
-//    list: list to remove item from
-//    data: pointer to location to store data of removed item
-//          if data is NULL, data is not returned
-int Remove_From_Beginning(linked_list_t list, int* data);
-
-// Remove an item from the end of the list 
-// Return zero on success
-// Params:
-//    list: list to remove item from
-//    data: pointer to location to store data of removed item
-//          if data is NULL, data is not returned
-int Remove_From_End(linked_list_t list, int* data);
-
-int Count(linked_list_t);
+int Count(linked_list_t)
+{
+	return (list_t *)->count;
+}
 
 // Create and initialize a list. 
 // Return pointer to list. Return NULL on failure.
@@ -147,6 +117,9 @@ void DLL_Purge(linked_list_t list, linked_list_t list)
 	}
 }
 
+// Return true (non-zero) if the list is empty
+//    list: list to examine
+int Empty(linked_list_t list);
 /*********************************************************************
 * Purpose: Determine if list is empty or not. If so, return true.
 ********************************************************************/
@@ -367,6 +340,13 @@ void DLL_InsertBeforeIndex(linked_list_t list, const T & source, int index)
 	this->wedgeNode(newItem);
 }
 
+
+// Insert an item at the beginning of the list
+// Return zero on success
+// Params:
+//    list: list to add item to
+//    data: Data to be added to the list
+int Insert_At_Beginning(linked_list_t list, int data);
 /*********************************************************************
 * Purpose: Add a new element at the start of the list that is a copy of source.
 * Exit: New item inserted at the start of the list, and old items back pointer updated.
@@ -388,6 +368,13 @@ void DLL_Prepend(linked_list_t list, const T & source)
 	/* Data structure consistent again */
 }
 
+
+// Insert an item at the end of the list
+// Return zero on success
+// Params:
+//    list: list to add item to
+//    data: Data to be added to the list
+int Insert_At_End(linked_list_t list, int data);
 /*********************************************************************
 * Purpose: Add a new element at the end of the list that is a copy of source.
 * Exit: New item inserted at the end of the list, old last items forward pointer updated.
@@ -409,6 +396,14 @@ void DLL_Append(linked_list_t list, const T & source)
 	/* Data structure consistent again */
 }
 
+
+// Remove an item from the beginning of the list 
+// Return zero on success
+// Params:
+//    list: list to remove item from
+//    data: pointer to location to store data of removed item
+//          if data is NULL, data is not returned
+int Remove_From_Beginning(linked_list_t list, int* data);
 /*********************************************************************
 * Purpose: Remove, and return, a copy of the element at the front of the list.
 * Entry: At least one item in the list.
@@ -449,6 +444,14 @@ T DLL_PopFront(linked_list_t list, )
 	}
 }
 
+
+// Remove an item from the end of the list 
+// Return zero on success
+// Params:
+//    list: list to remove item from
+//    data: pointer to location to store data of removed item
+//          if data is NULL, data is not returned
+int Remove_From_End(linked_list_t list, int* data);
 /*********************************************************************
 * Purpose: Remove, and return, a copy of the element at the back of the list.
 * Entry: At least one item in the list.
