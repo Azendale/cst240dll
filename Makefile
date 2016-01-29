@@ -1,4 +1,4 @@
-COPTS = -g -O0 -c -Wall
+COPTS = -g -O0 -c -Wall -std=c99
 OBS = DoubleLinkedList.o \
 	main.o \
 
