@@ -73,7 +73,7 @@ linked_list_t* Init_List()
 *  pointed at two adjacent "nodes" (including the head/tail pointers,
 *  where appropriate) in the list.
 *********************************************************************/
-int RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
+int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 {
 	list_t * this = (*list_t)list; 
 	if (toRemove->prev == NULL)
@@ -103,7 +103,7 @@ int RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 *  Entry: Node pointed to by newItem has the next and previous pointers
 *  pointed at two adjacent nodes in the list.
 *********************************************************************/
-void wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
+void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 {
 	list_t * this = (*list_t)list; 
 	// if true, @ end of list, update tail pointer
@@ -130,7 +130,7 @@ void wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 * Purpose: Remove all elements of the list, leaving an empty list.
 * Exit: List empty, no dynamically allocated memory left.
 ********************************************************************/
-void Purge(linked_list_t list, linked_list_t list)
+void DLL_Purge(linked_list_t list, linked_list_t list)
 {
 	list_t * this = (*list_t)list; 
 	item_t * tempHead = m_head;
@@ -148,7 +148,7 @@ void Purge(linked_list_t list, linked_list_t list)
 /*********************************************************************
 * Purpose: Determine if list is empty or not. If so, return true.
 ********************************************************************/
-int isEmpty(linked_list_t list, linked_list_t l) const
+int DLL_isEmpty(linked_list_t list, linked_list_t l) const
 {
 	list_t * this = (*list_t)l; 
 	if (m_head == NULL || m_tail == NULL)
@@ -166,7 +166,7 @@ int isEmpty(linked_list_t list, linked_list_t l) const
 * Entry: At least one item matching searchTerm in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
-item_t * FindData(linked_list_t list, const T & searchTerm, bool backward) const
+item_t * DLL_FindData(linked_list_t list, const T & searchTerm, bool backward) const
 {
 	item_t * temp = NULL;
 	if (backward)
@@ -198,7 +198,7 @@ item_t * FindData(linked_list_t list, const T & searchTerm, bool backward) const
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a pointer to data in it.)
 ********************************************************************/
-item_t * GetIndex(linked_list_t list, int index) const
+item_t * DLL_GetIndex(linked_list_t list, int index) const
 {
 	if (m_head == NULL || m_tail == NULL)
 	{
@@ -232,7 +232,7 @@ item_t * GetIndex(linked_list_t list, int index) const
 * Entry: source in a valid state.
 * Exit: This object created as a copy of source.
 ********************************************************************/
-DoubleLinkedList(linked_list_t list, const DoubleLinkedList & source) : m_head(NULL), m_tail(NULL)
+DLL_DoubleLinkedList(linked_list_t list, const DoubleLinkedList & source) : m_head(NULL), m_tail(NULL)
 {
 	*this = source;
 }
@@ -299,7 +299,7 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 * Purpose: Insert a copy of source before the first occurence of an item matching searchTerm.
 * Entry: At least one item matching searchTerm in the list.
 ********************************************************************/
-void InsertAfter(linked_list_t list, const T & source, const T & searchTerm)
+void DLL_InsertAfter(linked_list_t list, const T & source, const T & searchTerm)
 {
 	item_t * posReference = this->FindData(searchTerm, true);
 	item_t * newItem = new item_t(posReference, posReference->next, source);
@@ -310,7 +310,7 @@ void InsertAfter(linked_list_t list, const T & source, const T & searchTerm)
 * Purpose: Insert a copy of source before the first occurence of an item matching searchTerm.
 * Entry: At least one item matching searchTerm in the list.
 ********************************************************************/
-void InsertBefore(linked_list_t list, const T & source, const T & searchTerm)
+void DLL_InsertBefore(linked_list_t list, const T & source, const T & searchTerm)
 {
 	item_t * posReference = this->FindData(searchTerm);
 	item_t * newItem = new item_t(posReference->prev, posReference, source);
@@ -321,7 +321,7 @@ void InsertBefore(linked_list_t list, const T & source, const T & searchTerm)
 * Purpose: Insert a copy of source after the item at index.
 * Entry: Length of the list must be at least index+1 items
 ********************************************************************/
-void InsertAfterIndex(linked_list_t list, const T & source, int index)
+void DLL_InsertAfterIndex(linked_list_t list, const T & source, int index)
 {
 	item_t * newItem = NULL;
 
@@ -342,7 +342,7 @@ void InsertAfterIndex(linked_list_t list, const T & source, int index)
 * Purpose: Insert a copy of source before the item at index.
 * Entry: Length of the list must be at least index+1 items
 ********************************************************************/
-void InsertBeforeIndex(linked_list_t list, const T & source, int index)
+void DLL_InsertBeforeIndex(linked_list_t list, const T & source, int index)
 {
 	item_t * newItem = NULL;
 
@@ -363,7 +363,7 @@ void InsertBeforeIndex(linked_list_t list, const T & source, int index)
 * Purpose: Add a new element at the start of the list that is a copy of source.
 * Exit: New item inserted at the start of the list, and old items back pointer updated.
 ********************************************************************/
-void Prepend(linked_list_t list, const T & source)
+void DLL_Prepend(linked_list_t list, const T & source)
 {
 	item_t * newNode = new item_t((item_t *)NULL, m_head, source);
 	/* Data structure inconsistent after this */
@@ -383,7 +383,7 @@ void Prepend(linked_list_t list, const T & source)
 * Purpose: Add a new element at the end of the list that is a copy of source.
 * Exit: New item inserted at the end of the list, old last items forward pointer updated.
 ********************************************************************/
-void Append(linked_list_t list, const T & source)
+void DLL_Append(linked_list_t list, const T & source)
 {
 	item_t * newNode = new item_t(m_tail, (item_t *)NULL, source);
 	/* Data structure inconsistent after this */
@@ -404,7 +404,7 @@ void Append(linked_list_t list, const T & source)
 * Entry: At least one item in the list.
 * Exit: First item removed from the list.
 ********************************************************************/
-T PopFront(linked_list_t list, )
+T DLL_PopFront(linked_list_t list, )
 {
 	if (m_head == NULL || m_tail == NULL)
 	{
@@ -443,7 +443,7 @@ T PopFront(linked_list_t list, )
 * Entry: At least one item in the list.
 * Exit: Last item removed from the list.
 ********************************************************************/
-T PopBack(linked_list_t list, )
+T DLL_PopBack(linked_list_t list, )
 {
 	if (m_head == NULL || m_tail == NULL)
 	{
@@ -481,7 +481,7 @@ T PopBack(linked_list_t list, )
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-const T & First(linked_list_t list, ) const
+const T & DLL_First(linked_list_t list, ) const
 {
 	if (m_head == NULL || m_tail == NULL)
 	{
@@ -498,7 +498,7 @@ const T & First(linked_list_t list, ) const
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-const T & Last(linked_list_t list, ) const
+const T & DLL_Last(linked_list_t list, ) const
 {
 	if (m_head == NULL || m_tail == NULL)
 	{
@@ -515,7 +515,7 @@ const T & Last(linked_list_t list, ) const
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-T & First(linked_list_t list, )
+T & DLL_First(linked_list_t list, )
 {
 	if (m_head == NULL || m_tail == NULL)
 	{
@@ -532,7 +532,7 @@ T & First(linked_list_t list, )
 * Entry: At least one item in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-T & Last(linked_list_t list, )
+T & DLL_Last(linked_list_t list, )
 {
 	if (m_head == NULL || m_tail == NULL)
 	{
@@ -549,7 +549,7 @@ T & Last(linked_list_t list, )
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-T & GetIthElement(linked_list_t list, int index)
+T & DLL_GetIthElement(linked_list_t list, int index)
 {
 	return this->GetIndex(index)->GetData();
 }
@@ -559,7 +559,7 @@ T & GetIthElement(linked_list_t list, int index)
 * Entry: At least index+1 items in the list.
 * Exit: List unchanged (but possible to change because there is now a reference to data in it.)
 ********************************************************************/
-const T & GetIthElement(linked_list_t list, int index) const
+const T & DLL_GetIthElement(linked_list_t list, int index) const
 {
 	return this->GetIndex(index)->GetData();
 }
@@ -590,7 +590,7 @@ const T & DoubleLinkedList<T>::operator[](int index) const
 * Entry: At least index+1 items in the list.
 * Exit: Item removed from list, with item(s) previously on either side linked to each other
 ********************************************************************/
-T ExtractIndex(linked_list_t list, int index)
+T DLL_ExtractIndex(linked_list_t list, int index)
 {
 	item_t * toRemove = this->GetIndex(index);
 	T returnVal = toRemove->GetData();
@@ -604,7 +604,7 @@ T ExtractIndex(linked_list_t list, int index)
 * Entry: At least one item matching searchTerm in the list.
 * Exit: Item removed from list, with item(s) previously on either side linked to each other
 ********************************************************************/
-T Extract(linked_list_t list, const T & searchTerm)
+T DLL_Extract(linked_list_t list, const T & searchTerm)
 {
 	item_t * temp = this->FindData(searchTerm);
 	T returnVal = temp->GetData();
@@ -617,7 +617,7 @@ T Extract(linked_list_t list, const T & searchTerm)
 * Purpose: return the number of items in the list.
 *********************************************************************/
 template <typename T>
-int Size(linked_list_t list, ) const
+int DLL_Size(linked_list_t list, ) const
 {
 	int size = 0;
 	item_t * currentPlace = m_head;
