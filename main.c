@@ -36,6 +36,15 @@ int main(int argc, char ** argv)
 		{
 			printf("Got %d of the stack, as expected.\n", stacktop);
 		}
+		if ( Count(mylist) == stacktop)
+		{
+			printf("Count(mylist) returned the expected number of items.\n");
+		}
+		else
+		{
+			printf("Count(mylist) returned an unexpected number of items: %d\n", Count(mylist));
+			exit(1);
+		}
 		--expectedStacktop;
 	}
 	if (0 != stacktop)
