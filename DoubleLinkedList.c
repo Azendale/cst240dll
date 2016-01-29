@@ -39,7 +39,7 @@ linked_list_t* Init_List()
 	list_t * this = (list_t *)malloc(sizeof(list_t));
 	this->head = NULL;
 	this->tail = NULL;
-	count = 0;
+	this->count = 0;
 	return (linked_list_t *)this;
 }
 
@@ -55,7 +55,7 @@ linked_list_t* Init_List()
 /*
 int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (toRemove->prev == NULL)
 	{
 		this->head = toRemove->next;
@@ -83,9 +83,9 @@ int DLL_RemoveNode(linked_list_t list, linked_list_t list, item_t * toRemove)
 *  Entry: Node pointed to by newItem has the next and previous pointers
 *  pointed at two adjacent nodes in the list.
 *********************************************************************/
-void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
+void DLL_wedgeNode(linked_list_t list, item_t * newItem)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	// if true, @ end of list, update this->tail pointer
 	if (newItem->next == NULL) 
 	{
@@ -113,7 +113,7 @@ void DLL_wedgeNode(linked_list_t list, linked_list_t list, item_t * newItem)
 /*
 void DLL_Purge(linked_list_t list)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * tempHead = this->head;
 	this->head = NULL;
 	this->tail = NULL;
@@ -130,7 +130,7 @@ void DLL_Purge(linked_list_t list)
 //    list: list to examine
 int Empty(linked_list_t list);
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		return 1;
@@ -149,7 +149,7 @@ int Empty(linked_list_t list);
 /*
 item_t * DLL_FindData(linked_list_t list, int searchTerm, int backward)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * temp = NULL;
 	if (backward)
 	{
@@ -180,7 +180,7 @@ item_t * DLL_FindData(linked_list_t list, int searchTerm, int backward)
 /*
 item_t * DLL_GetIndex(linked_list_t list, int index)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "Empty list.";
@@ -214,7 +214,7 @@ item_t * DLL_GetIndex(linked_list_t list, int index)
 // Return zero on success
 int Delete_List(linked_list_t list)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * tempHead = this->head;
 	this->head = NULL;
 	this->tail = NULL;
@@ -234,7 +234,7 @@ int Delete_List(linked_list_t list)
 /*
 void DLL_InsertAfter(linked_list_t list, int source, int searchTerm)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * posReference = this->FindData(searchTerm, 1); // Magic 1 is true
 	item_t * newItem = NewItem_t(posReference, posReference->next, source);
 	this->wedgeNode(newItem);
@@ -248,7 +248,7 @@ void DLL_InsertAfter(linked_list_t list, int source, int searchTerm)
 /*
 void DLL_InsertBefore(linked_list_t list, int source, int searchTerm)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * posReference = this->FindData(searchTerm);
 	item_t * newItem = NewItem_t(posReference->prev, posReference, source);
 	this->wedgeNode(newItem);
@@ -262,7 +262,7 @@ void DLL_InsertBefore(linked_list_t list, int source, int searchTerm)
 /*
 void DLL_InsertAfterIndex(linked_list_t list, int source, int index)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * newItem = NULL;
 
 	if (this->head == NULL && this->tail == NULL && -1 == index)
@@ -286,7 +286,7 @@ void DLL_InsertAfterIndex(linked_list_t list, int source, int index)
 /*
 void DLL_InsertBeforeIndex(linked_list_t list, int source, int index)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * newItem = NULL;
 
 	if (this->head == NULL && this->tail == NULL && 0 == index)
@@ -311,7 +311,7 @@ void DLL_InsertBeforeIndex(linked_list_t list, int source, int index)
 //    data: Data to be added to the list
 int Insert_At_Beginning(linked_list_t list, int data);
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * newNode = NewItem_t((item_t *)NULL, this->head, data);
 	/* Data structure inconsistent after this */
 	if (newNode->next == NULL)
@@ -336,7 +336,7 @@ int Insert_At_Beginning(linked_list_t list, int data);
 //    data: Data to be added to the list
 int Insert_At_End(linked_list_t list, int data);
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * newNode = NewItem_t(this->tail, (item_t *)NULL, data);
 	/* Data structure inconsistent after this */
 	if (newNode->prev == NULL)
@@ -362,7 +362,7 @@ int Insert_At_End(linked_list_t list, int data);
 //          if data is NULL, data is not returned
 int Remove_From_Beginning(linked_list_t list, int* data);
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		return 1;
@@ -403,7 +403,7 @@ int Remove_From_Beginning(linked_list_t list, int* data);
 //          if data is NULL, data is not returned
 int Remove_From_End(linked_list_t list, int* data);
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		return 1;
@@ -442,7 +442,7 @@ int Remove_From_End(linked_list_t list, int* data);
 /*
 int DLL_First(linked_list_t list, )
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return front";
@@ -462,7 +462,7 @@ int DLL_First(linked_list_t list, )
 /*
 int DLL_Last(linked_list_t list, )
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return back";
@@ -482,7 +482,7 @@ int DLL_Last(linked_list_t list, )
 /*
 T & DLL_First(linked_list_t list, )
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return front";
@@ -502,7 +502,7 @@ T & DLL_First(linked_list_t list, )
 /*
 T & DLL_Last(linked_list_t list, )
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	if (this->head == NULL || this->tail == NULL)
 	{
 		throw "0 items in list, can't return back";
@@ -522,7 +522,7 @@ T & DLL_Last(linked_list_t list, )
 /*
 T & DLL_GetIthElement(linked_list_t list, int index)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	return this->GetIndex(index)->data;
 }
 */
@@ -535,7 +535,7 @@ T & DLL_GetIthElement(linked_list_t list, int index)
 /*
 int DLL_GetIthElement(linked_list_t list, int index)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	return this->GetIndex(index)->data;
 }
 */
@@ -573,7 +573,7 @@ int DoubleLinkedList<T>::operator[](int index)
 /*
 T DLL_ExtractIndex(linked_list_t list, int index)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * toRemove = this->GetIndex(index);
 	T returnVal = toRemove->data;
 	this->RemoveNode(toRemove);
@@ -590,7 +590,7 @@ T DLL_ExtractIndex(linked_list_t list, int index)
 /*
 T DLL_Extract(linked_list_t list, int searchTerm)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	item_t * temp = this->FindData(searchTerm);
 	T returnVal = temp->data;
 	this->RemoveNode(temp);
@@ -605,7 +605,7 @@ T DLL_Extract(linked_list_t list, int searchTerm)
 /*
 int DLL_SizeCount(linked_list_t list)
 {
-	list_t * this = (*list_t)list; 
+	list_t * this = (list_t *)list; 
 	int size = 0;
 	item_t * currentPlace = this->head;
 	while (currentPlace != NULL)
